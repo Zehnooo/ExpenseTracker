@@ -1,0 +1,297 @@
+:root {
+    --good-color: #197278;
+    --bad-color: #c44536;
+    --background-color: #edddd4;
+    --accent-color:#463f3a;
+
+}
+body {
+    background: var(--background-color);
+}
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+input {
+    width:30ch;
+}
+li {
+    text-align: center;
+    padding:10px 20px;
+    margin:0;
+    list-style-type: none;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    transition: ease-in .2s;
+    font-size: 1.2rem;
+}
+li:hover {
+    scale:1.1;
+}
+.income {
+    background-color: var(--good-color);
+    color:white;
+}
+.expense {
+    background-color: var(--bad-color);
+    color:white;
+}
+.income-submit {
+    transition: ease-in-out .4s;
+}
+.income-submit:hover {
+    background-color: green;
+    color:white;
+    scale:1.25;
+}
+.expense-submit {
+    transition: ease-in .4s;
+}
+.expense-submit:hover {
+    background: red;
+    color:white;
+    scale:1.25;
+}
+
+// Create empty transaction array for storing
+let transactions = [];
+
+// Function to save transactions
+function saveTransactions() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+//function to load transactions 
+function loadTransactions() {
+	const stored = localStorage.getItem("transactions");
+	if (stored) {
+		transactions = JSON.parse(stored);
+		transactions.forEach(addTransactionToDOM);
+	}
+    updateTotalsFromTransactions();
+}
+function updateTotalsFromTransactions() {
+    let incomeTotal = 0;
+    let expenseTotal = 0;
+
+    transactions.forEach(tx => {
+
+        if (tx.type === "income") {
+            incomeTotal += Number(tx.amount);
+        } else if (tx.type === "expense") {
+            expenseTotal += Number(tx.amount);
+        }
+    });
+
+    const balance = incomeTotal - expenseTotal;
+
+    currentBalance.textContent = `$${balance.toFixed(2)}`;
+    totalIncome.textContent = `$${incomeTotal.toFixed(2)}`;
+    totalExpense.textContent = `$${expenseTotal.toFixed(2)}`;
+}
+// Grab form and inputs
+const expenseForm = document.getElementById("transaction-form");
+const incomeForm = document.getElementById("income-form");
+const compInput = document.getElementById("company");
+const descInput = document.getElementById("desc");
+const amountInput = document.getElementById("amount");
+const transactionList = document.getElementById("transaction-list");
+const currentBalance = document.getElementById("current-balance");
+const totalExpense = document.getElementById("day-expenses");
+const incomeDescInp = document.getElementById("income-desc");
+const incomeAmoInp = document.getElementById("income-amount");
+const totalIncome = document.getElementById("day-income");
+
+loadTransactions();
+
+
+// DOM Parsing function
+function parseDisplayedAmount(element) {
+	const rawText = element.textContent;
+	const cleaned = rawText.replace(/[^0-9.-]+/g, "");
+	const parsed = parseFloat(cleaned);
+	return isNaN(parsed) ? 0 : parsed;
+}
+
+function addTransactionToDOM(tx) {
+    const li = document.createElement("li");
+    
+    if (tx.type === "income"){
+        li.classList.add("income");
+        li.textContent = `Income 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+    } else {
+        li.classList.add("expense");
+        li.textContent = `Expense 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+    }
+
+    transactionList.appendChild(li);
+}
+
+// Add submit event listener
+expenseForm.addEventListener("submit", function (event){
+    event.preventDefault(); // stops page refresh on submit
+
+    // get values
+    const company = compInput.value;
+    const description = descInput.value;
+    const amount = Math.abs(parseFloat((amountInput.value)));
+    const now = new Date();
+    const expenseTotal = parseDisplayedAmount(totalExpense);
+
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    const formattedDate = now.toLocaleDateString(undefined,options);
+    const currentTime = now.toLocaleTimeString(undefined, {
+        hour:'2-digit',
+        minute: '2-digit'
+    });
+
+    const balance = parseDisplayedAmount(currentBalance);
+    const updatedBalance = balance - amount;
+
+    currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
+
+    const updatedExpense = expenseTotal + amount;
+
+    totalExpense.textContent = `$${updatedExpense.toFixed(2)}`;
+
+    const li = document.createElement("li");
+    li.textContent = `Expense 📅 ${formattedDate.toUpperCase()} 🕒 ${currentTime}  🏢 ${company}  📝 ${description}: 💵 $${parseFloat(amount).toFixed(2)}`;
+    transactionList.appendChild(li);
+
+    transactions.push({
+        type:"expense",
+        company,
+        description,
+        amount,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    saveTransactions();
+    expenseForm.reset();
+});
+
+incomeForm.addEventListener("submit", function (event){
+    event.preventDefault();
+
+    const incDescrip = incomeDescInp.value;
+    const incAmou = (parseFloat(incomeAmoInp.value));
+    const incTotal = parseDisplayedAmount(totalIncome);
+
+    const now = new Date();
+
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    const formattedDate = now.toLocaleDateString(undefined,options);
+    const currentTime = now.toLocaleTimeString(undefined, {
+        hour:'2-digit',
+        minute: '2-digit'
+    });
+    const incomeBalance = incTotal + incAmou;
+    const balance = parseFloat(currentBalance.textContent.replace(/[^0-9.-]+/g, ""));
+    const updatedBalance = balance + incAmou;
+
+    currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
+    totalIncome.textContent = `$${incomeBalance.toFixed(2)}`;
+    const li = document.createElement("li");
+    li.textContent = `Income 📅 ${formattedDate.toUpperCase()} 🕒 ${currentTime} 📝 ${incDescrip}  💵 $${parseFloat(incAmou).toFixed(2)}`;
+    transactionList.appendChild(li);
+    
+    console.log("Incoming income values:", {
+        description: incDescrip,
+        amount: incAmou,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    transactions.push({
+        type:"income",
+        description: incDescrip,
+        amount: incAmou,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    saveTransactions();
+    incomeForm.reset();
+});
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="stylesheet.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-head">Expense Tracker</h1>
+      <hr />
+      <div class="balance-info">
+        <p>Current Balance: <span id="current-balance">$0.00</span></p>
+        <p>Total Day Income: <span id="day-income">$0.00</span></p>
+        <p>Total Day Expenses: <span id="day-expenses">$0.00</span></p>
+      </div>
+      <form id="income-form" role="form">
+        <h3>💰Enter Income Transactions💰</h3>
+        <div class="input-info">
+          <label for="income-desc">Description</label>
+          <input
+            type="text"
+            id="income-desc"
+            placeholder="Income Description"
+            autocomplete="off"
+            required
+          />
+          <label for="income-amount">Amount</label>
+          <input
+            type="number"
+            id="income-amount"
+            placeholder="Income Amount (positive)"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" class="income-submit">Add Transaction</button>
+        </div>
+      </form>
+      <form id="transaction-form" role="form">
+        <h3>💸Enter Expense Transactions💸</h3>
+        <div class="input-info">
+          <label for="company">Company</label>
+          <input
+            type="text"
+            id="company"
+            placeholder="Company Name"
+            autocomplete="off"
+            required
+          />
+          <label for="desc">Description</label>
+          <input
+            type="text"
+            id="desc"
+            placeholder="Transaction Description"
+            required
+            autocomplete="off"
+          />
+          <label for="amount">Amount</label>
+          <input
+            type="number"
+            id="amount"
+            placeholder="Amount (positive or negative)"
+            required
+            step="0.01"
+            autocomplete="off"
+          />
+          <button type="submit" class="expense-submit">Add Transaction</button>
+        </div>
+      </form>
+
+      <h3>Recent Transactions</h3>
+      <ul id="transaction-list" aria-live="polite"></ul>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

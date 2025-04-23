@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="stylesheet.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-head">Expense Tracker</h1>
+      <hr />
+      <div class="balance-info">
+        <p>Current Balance: <span id="current-balance">$0.00</span></p>
+        <p>Total Day Income: <span id="day-income">$0.00</span></p>
+        <p>Total Day Expenses: <span id="day-expenses">$0.00</span></p>
+      </div>
+      <form id="income-form" role="form">
+        <h3>💰Enter Income Transactions💰</h3>
+        <div class="input-info">
+          <label for="income-desc">Description</label>
+          <input
+            type="text"
+            id="income-desc"
+            placeholder="Income Description"
+            autocomplete="off"
+            required
+          />
+          <label for="income-amount">Amount</label>
+          <input
+            type="number"
+            id="income-amount"
+            placeholder="Income Amount (positive)"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" class="income-submit">Add Transaction</button>
+        </div>
+      </form>
+      <form id="transaction-form" role="form">
+        <h3>💸Enter Expense Transactions💸</h3>
+        <div class="input-info">
+          <label for="company">Company</label>
+          <input
+            type="text"
+            id="company"
+            placeholder="Company Name"
+            autocomplete="off"
+            required
+          />
+          <label for="desc">Description</label>
+          <input
+            type="text"
+            id="desc"
+            placeholder="Transaction Description"
+            required
+            autocomplete="off"
+          />
+          <label for="amount">Amount</label>
+          <input
+            type="number"
+            id="amount"
+            placeholder="Amount (positive or negative)"
+            required
+            step="0.01"
+            autocomplete="off"
+          />
+          <button type="submit" class="expense-submit">Add Transaction</button>
+        </div>
+      </form>
+
+      <h3>Recent Transactions</h3>
+      <ul id="transaction-list" aria-live="polite"></ul>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

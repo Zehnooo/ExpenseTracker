@@ -1,0 +1,167 @@
+// Create empty transaction array for storing
+let transactions = [];
+
+// Function to save transactions
+function saveTransactions() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+// Function to load transactions 
+function loadTransactions() {
+	const stored = localStorage.getItem("transactions");
+	if (stored) {
+		transactions = JSON.parse(stored);
+		transactions.forEach(addTransactionToDOM);
+	}
+    updateTotalsFromTransactions();
+}
+// function to  update totals on page load
+function updateTotalsFromTransactions() {
+    let incomeTotal = 0;
+    let expenseTotal = 0;
+
+    transactions.forEach(tx => {
+
+        if (tx.type === "income") {
+            incomeTotal += Number(tx.amount);
+        } else if (tx.type === "expense") {
+            expenseTotal += Number(tx.amount);
+        }
+    });
+
+    const balance = incomeTotal - expenseTotal;
+
+    currentBalance.textContent = `$${balance.toFixed(2)}`;
+    totalIncome.textContent = `$${incomeTotal.toFixed(2)}`;
+    totalExpense.textContent = `$${expenseTotal.toFixed(2)}`;
+}
+// Grab form and inputs
+const expenseForm = document.getElementById("transaction-form");
+const incomeForm = document.getElementById("income-form");
+const compInput = document.getElementById("company");
+const descInput = document.getElementById("desc");
+const amountInput = document.getElementById("amount");
+const transactionList = document.getElementById("transaction-list");
+const currentBalance = document.getElementById("current-balance");
+const totalExpense = document.getElementById("day-expenses");
+const incomeDescInp = document.getElementById("income-desc");
+const incomeAmoInp = document.getElementById("income-amount");
+const totalIncome = document.getElementById("day-income");
+
+loadTransactions();
+
+
+// DOM Parsing function
+function parseDisplayedAmount(element) {
+	const rawText = element.textContent;
+	const cleaned = rawText.replace(/[^0-9.-]+/g, "");
+	const parsed = parseFloat(cleaned);
+	return isNaN(parsed) ? 0 : parsed;
+}
+
+function addTransactionToDOM(tx) {
+    const li = document.createElement("li");
+    
+    if (tx.type === "income"){
+        li.classList.add("income");
+        li.textContent = `Income 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+    } else {
+        li.classList.add("expense");
+        li.textContent = `Expense 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+    }
+
+    transactionList.appendChild(li);
+}
+
+// Add submit event listener
+expenseForm.addEventListener("submit", function (event){
+    event.preventDefault(); // stops page refresh on submit
+
+    // get values
+    const company = compInput.value;
+    const description = descInput.value;
+    const amount = Math.abs(parseFloat((amountInput.value)));
+    const now = new Date();
+    const expenseTotal = parseDisplayedAmount(totalExpense);
+
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    const formattedDate = now.toLocaleDateString(undefined,options);
+    const currentTime = now.toLocaleTimeString(undefined, {
+        hour:'2-digit',
+        minute: '2-digit'
+    });
+
+    const balance = parseDisplayedAmount(currentBalance);
+    const updatedBalance = balance - amount;
+
+    currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
+
+    const updatedExpense = expenseTotal + amount;
+
+    totalExpense.textContent = `$${updatedExpense.toFixed(2)}`;
+
+    addTransactionToDOM({
+        type:"expense",
+        company,
+        description,
+        amount,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    transactions.push({
+        type:"expense",
+        company,
+        description,
+        amount,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    saveTransactions();
+    expenseForm.reset();
+});
+
+incomeForm.addEventListener("submit", function (event){
+    event.preventDefault();
+
+    const incDescrip = incomeDescInp.value;
+    const incAmou = (parseFloat(incomeAmoInp.value));
+    const incTotal = parseDisplayedAmount(totalIncome);
+
+    const now = new Date();
+
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    const formattedDate = now.toLocaleDateString(undefined,options);
+    const currentTime = now.toLocaleTimeString(undefined, {
+        hour:'2-digit',
+        minute: '2-digit'
+    });
+    const incomeBalance = incTotal + incAmou;
+    const balance = parseFloat(currentBalance.textContent.replace(/[^0-9.-]+/g, ""));
+    const updatedBalance = balance + incAmou;
+
+    currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
+    totalIncome.textContent = `$${incomeBalance.toFixed(2)}`;
+
+    
+   addTransactionToDOM({
+    type:"income",
+    description: incDescrip,
+    amount: incAmou,
+    date: formattedDate,
+    time: currentTime
+   });
+
+    transactions.push({
+        type:"income",
+        description: incDescrip,
+        amount: incAmou,
+        date: formattedDate,
+        time: currentTime
+    });
+
+    saveTransactions();
+    incomeForm.reset();
+});
+
+
