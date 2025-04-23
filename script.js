@@ -57,6 +57,16 @@ function parseDisplayedAmount(element) {
 	const parsed = parseFloat(cleaned);
 	return isNaN(parsed) ? 0 : parsed;
 }
+function deleteTransaction(id){
+    transactions = transactions.filter(tx => tx.id !== id);
+
+    saveTransactions();
+
+    transactionList.innerHTML = "";
+    transactions.forEach(addTransactionToDOM);
+
+    updateTotalsFromTransactions();
+}
 
 function addTransactionToDOM(tx) {
     const li = document.createElement("li");
@@ -68,7 +78,11 @@ function addTransactionToDOM(tx) {
         li.classList.add("expense");
         li.textContent = `Expense 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
     }
-
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "🗑️";
+    delBtn.classList.add("delete-btn");
+    delBtn.addEventListener("click", () => deleteTransaction(tx.id));
+    li.appendChild(delBtn);
     transactionList.appendChild(li);
 }
 
@@ -108,7 +122,10 @@ expenseForm.addEventListener("submit", function (event){
         time: currentTime
     });
 
+    const id =  crypto.randomUUID();
+
     transactions.push({
+        id: id,
         type:"expense",
         company,
         description,
@@ -151,8 +168,10 @@ incomeForm.addEventListener("submit", function (event){
     date: formattedDate,
     time: currentTime
    });
+   const id = crypto.randomUUID();
 
     transactions.push({
+        id: id,
         type:"income",
         description: incDescrip,
         amount: incAmou,
