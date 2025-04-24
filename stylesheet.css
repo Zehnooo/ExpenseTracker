@@ -1,10 +1,11 @@
 :root {
-    --good-color: #197278;
-    --bad-color: #c44536;
-    --background-color: #edddd4;
-    --accent-color:#463f3a;
-
-}
+    --good-color: #0b3954;       /* Deep Navy */
+    --bad-color: #b93131;        /* Soft Coral */
+    --background-color: #f4f4f9; /* Light Gray */
+    --accent-color: #e0ff4f;     /* Vibrant Lime */
+    --text-color: #1c1c1c;       /* Dark Charcoal */
+    --frame-color: #c4c4c4; /* Soft Charcoal */
+  }
 body {
     background: var(--background-color);
     border: 6px groove var(--accent-color);
@@ -36,17 +37,35 @@ li {
     font-family: Gill Sans, sans-serif;
     letter-spacing: 1.5px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     max-width: 100%; /* ✅ don't grow beyond container */
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position:relative;
 }
 .tx-content {
     flex-grow: 1;
     text-align: center;
+    word-break: break-word;       /* forces breaks in long words */
+    white-space: normal;          /* allow line wrapping */
+    overflow-wrap: break-word;    /* fallback support */
 }
+.tx-row {
+    text-align: center;
+    margin: 2px 0;
+    padding:5px;
+  }
+  
+  .amount-line {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
 li:hover {
     transform: scale(1.03);  /* ✅ use transform, not 'scale:' */
-  
+    
 }
 .income {
     background-color: var(--good-color);
@@ -81,26 +100,44 @@ form {
     text-align: center;
 }
 .delete-btn {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
-    font-size: 1.2rem;
+    font-size: 2rem;
     color: white;
     opacity: 0;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
-    margin-left: 4px;
+    transition: opacity 0.2s ease;
     padding: 0;
-    line-height: 1;
 }
 li:hover .delete-btn {
     opacity: 1;
     border-radius: 50%;
-    padding: 4px;
-    transform: scale(1.15);
 }
 .positive {
-    color:var(--good-color);
+    color:green;
 }
 .negative {
-    color:var(--bad-color);
+    color:red;
 }
+.balance-info {
+    border: 1px solid var(--frame-color);
+    border-radius: 10px;
+    padding: 15px 20px;
+    background-color: white;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.balance-info p {
+    font-size:30px;
+    text-wrap: nowrap;
+    padding: 0 25px;
+   display:flex;
+   justify-content: space-between;
+   align-items: center;
+}
+

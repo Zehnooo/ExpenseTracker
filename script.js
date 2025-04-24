@@ -99,13 +99,24 @@ function addTransactionToDOM(tx) {
 
     const content = document.createElement("span");
     content.classList.add("tx-content");
+
+    const formattedAmount = `$${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
     
     if (tx.type === "income"){
         li.classList.add("income");
-        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits:2})}`;
+        content.innerHTML = `
+        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
+        <div class="tx-row">📝 ${tx.description}</div>
+        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    `;
     } else {
         li.classList.add("expense");
-        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2})}`;
+        content.innerHTML = `
+        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
+        <div class="tx-row">🏢 ${tx.company} 📝 ${tx.description}</div>
+        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    `;
     }
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
@@ -115,6 +126,20 @@ function addTransactionToDOM(tx) {
     li.appendChild(delBtn);
     transactionList.prepend(li);
 }
+function undoTransactionDel(id){
+    const tx = deletedTransactions.find(tx => tx.id === id);
+    if (!tx) return;
+
+    deletedTransactions = deletedTransactions.filter(tx => tx.id !== id);
+    transactions.push(tx);
+    saveTransactions();
+
+    transactionList.innerHTML = "";
+    transactions.forEach(addTransactionToDOM);
+
+    addDeletedTransactions();
+    updateTotalsFromTransactions();
+} 
 
 function addDeletedTransactions(){
     const deletedList = document.getElementById("deleted-transactions");
@@ -127,23 +152,24 @@ function addDeletedTransactions(){
         const content = document.createElement("span"); // add wrapper span
         content.classList.add("tx-content");
 
-        content.textContent = ` ${tx.date.toUpperCase()} ${tx.time} - ${tx.description} - $${parseFloat(tx.amount).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}  `;
+        const formattedAmount = `$${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+        content.innerHTML = `
+        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
+        <div class="tx-row">📝 ${tx.description}</div>
+        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    `;
 
         const undoBtn = document.createElement("button");
         undoBtn.textContent = "↩️";
         undoBtn.classList.add("delete-btn"); // reuse styles
+        undoBtn.addEventListener("click", () => undoTransactionDel(tx.id));
 
         li.appendChild(content);
         li.appendChild(undoBtn);
         deletedList.prepend(li);
     });
 }
-
-/* function undoTransactionDel(tx.id){
-
-} 
-*/
-
 
 
 // Add submit event listener
