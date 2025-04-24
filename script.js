@@ -1,9 +1,11 @@
 // Create empty transaction array for storing
 let transactions = [];
+let deletedTransactions = [];
 
 // Function to save transactions
 function saveTransactions() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
+    localStorage.setItem("del-transactions", JSON.stringify(deletedTransactions));
 }
 // Function to load transactions 
 function loadTransactions() {
@@ -12,6 +14,11 @@ function loadTransactions() {
 		transactions = JSON.parse(stored);
 		transactions.forEach(addTransactionToDOM);
 	}
+
+    const deleted = localStorage.getItem("del-transactions");
+    if (deleted) {
+        deletedTransactions = JSON.parse(deleted);
+    }
     updateTotalsFromTransactions();
 }
 // function to  update totals on page load
@@ -33,7 +40,20 @@ function updateTotalsFromTransactions() {
     currentBalance.textContent = `$${balance.toFixed(2)}`;
     totalIncome.textContent = `$${incomeTotal.toFixed(2)}`;
     totalExpense.textContent = `$${expenseTotal.toFixed(2)}`;
+
 }
+
+function updateBalanceClass(){
+
+    if (parseDisplayedAmount(currentBalance) > 0){
+        currentBalance.classList.remove("negative");
+        currentBalance.classList.add("positive");
+    } else {
+        currentBalance.classList.remove("positive");
+        currentBalance.classList.add("negative");
+    }
+}
+
 // Grab form and inputs
 const expenseForm = document.getElementById("transaction-form");
 const incomeForm = document.getElementById("income-form");
@@ -58,33 +78,44 @@ function parseDisplayedAmount(element) {
 	return isNaN(parsed) ? 0 : parsed;
 }
 function deleteTransaction(id){
+    const deletedTx = transactions.find(tx => tx.id === id);
+    if (deletedTx) {
+        deletedTransactions.push(deletedTx);
+    }
+
     transactions = transactions.filter(tx => tx.id !== id);
 
     saveTransactions();
 
     transactionList.innerHTML = "";
     transactions.forEach(addTransactionToDOM);
-
     updateTotalsFromTransactions();
 }
 
 function addTransactionToDOM(tx) {
     const li = document.createElement("li");
+    li.classList.add(tx.type);
+
+    const content = document.createElement("span");
+    content.classList.add("tx-content");
     
     if (tx.type === "income"){
         li.classList.add("income");
-        li.textContent = `Income 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
     } else {
         li.classList.add("expense");
-        li.textContent = `Expense 📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
     }
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
     delBtn.classList.add("delete-btn");
     delBtn.addEventListener("click", () => deleteTransaction(tx.id));
+    li.appendChild(content);
     li.appendChild(delBtn);
-    transactionList.appendChild(li);
+    transactionList.prepend(li);
 }
+
+
 
 // Add submit event listener
 expenseForm.addEventListener("submit", function (event){
@@ -133,7 +164,7 @@ expenseForm.addEventListener("submit", function (event){
         date: formattedDate,
         time: currentTime
     });
-
+    updateBalanceClass();
     saveTransactions();
     expenseForm.reset();
 });
@@ -178,9 +209,10 @@ incomeForm.addEventListener("submit", function (event){
         date: formattedDate,
         time: currentTime
     });
-
+    updateBalanceClass();
     saveTransactions();
     incomeForm.reset();
 });
+updateBalanceClass();
 
 
