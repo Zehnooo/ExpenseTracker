@@ -20,6 +20,7 @@ function loadTransactions() {
         deletedTransactions = JSON.parse(deleted);
     }
     updateTotalsFromTransactions();
+    addDeletedTransactions();
 }
 // function to  update totals on page load
 function updateTotalsFromTransactions() {
@@ -84,7 +85,7 @@ function deleteTransaction(id){
     }
 
     transactions = transactions.filter(tx => tx.id !== id);
-
+    addDeletedTransactions();
     saveTransactions();
 
     transactionList.innerHTML = "";
@@ -101,10 +102,10 @@ function addTransactionToDOM(tx) {
     
     if (tx.type === "income"){
         li.classList.add("income");
-        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits:2})}`;
     } else {
         li.classList.add("expense");
-        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toFixed(2)}`;
+        content.textContent = `📅 ${tx.date.toUpperCase()} 🕒 ${tx.time} 🏢 ${tx.company} 📝 ${tx.description} 💵 $${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2})}`;
     }
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
@@ -114,6 +115,34 @@ function addTransactionToDOM(tx) {
     li.appendChild(delBtn);
     transactionList.prepend(li);
 }
+
+function addDeletedTransactions(){
+    const deletedList = document.getElementById("deleted-transactions");
+    deletedList.innerHTML = "";
+
+    deletedTransactions.forEach(tx => {
+        const li = document.createElement("li");
+        li.classList.add("deleted", tx.type); // parent li gets layout class
+
+        const content = document.createElement("span"); // add wrapper span
+        content.classList.add("tx-content");
+
+        content.textContent = ` ${tx.date.toUpperCase()} ${tx.time} - ${tx.description} - $${parseFloat(tx.amount).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}  `;
+
+        const undoBtn = document.createElement("button");
+        undoBtn.textContent = "↩️";
+        undoBtn.classList.add("delete-btn"); // reuse styles
+
+        li.appendChild(content);
+        li.appendChild(undoBtn);
+        deletedList.prepend(li);
+    });
+}
+
+/* function undoTransactionDel(tx.id){
+
+} 
+*/
 
 
 

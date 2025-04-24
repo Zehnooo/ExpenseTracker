@@ -32,6 +32,7 @@
             id="income-amount"
             placeholder="Income Amount (positive)"
             autocomplete="off"
+            step=".01"
             required
           />
           <button type="submit" class="income-submit">Add Transaction</button>
@@ -71,14 +72,14 @@
 
       <h3>⏳ Recent Transactions ⌛</h3>
       <div class="container">
-      <ul id="transaction-list" aria-live="polite"></ul>
-    </div>
-    <div class="container">
-     <details id="deleted-log">
-      <summary>View Deleted Transactions</summary>
-      <ul id="deleted-transactions"></ul>
-     </details>
-    </div>
+        <ul id="transaction-list" aria-live="polite"></ul>
+      </div>
+      <div class="container">
+        <details id="deleted-log">
+          <summary>View Deleted Transactions</summary>
+          <ul id="deleted-transactions"></ul>
+        </details>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
