@@ -132,10 +132,10 @@ li:hover {
     cursor: pointer
 }
 button {
-    transition: ease .5s;
+    transition: transform 0.5s ease;
 }
 button:hover {
-    scale:1.2;
+   transform: scale(1.2);
     transition: ease .5s;
 }
 .no-scale:hover {
@@ -235,7 +235,7 @@ hr {
     visibility: hidden;
     cursor: pointer;
     padding: 0;
-    margin-bottom:20px;
+    
 }
 li:hover .delete-btn {
     visibility:visible;
@@ -254,11 +254,15 @@ li:hover .delete-btn {
     visibility: hidden;
     cursor: pointer;
     padding: 0;
-    margin-bottom:20px;
 }
 li:hover .edit-btn {
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     visibility:visible;
+}
+
+.delete-btn:hover,
+.edit-btn:hover {
+  transform: translateY(-50%) scale(1.2); /* scale with translation preserved */
 }
 .positive {
     color:green;
