@@ -87,7 +87,7 @@
     </div>
     <div class="del-container">
       <div class="container">
-        <h3>View Deleted Transactions</h3>
+        <h3>🚮 View Deleted Transactions 🚮</h3>
         <details id="deleted-log">
           <summary></summary>
           <ul id="deleted-transactions"></ul>
@@ -124,6 +124,44 @@
       </form>
         </div>
 
+        <div id="edit-expense-modal" class="edit-expense hidden">
+          <form id="edit-expense-form" role="form">
+          <div class="edit-expense-content">
+            <div class="edit-expense-company-container">
+              <label for="company">Company</label>
+              <input
+                type="text"
+                id="edit-expense-company"
+                placeholder="Company Name"
+                autocomplete="off"
+                required
+              />
+            </div>
+            <div class="edit-expense-desc-container">
+              <label for="desc">Description</label>
+              <input
+                type="text"
+                id="edit-expense-desc"
+                placeholder="Groceries, Car Repairs, etc."
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div class="edit-expense-amount-container">
+              <label for="amount">Amount</label>
+              <input
+                type="number"
+                id="edit-expense-amount"
+                placeholder="(positive or negative)"
+                required
+                step="0.01"
+                autocomplete="off"
+              />
+            </div>
+              <button type="submit" class="edit-expense-submit">Submit</button>
+            </div>
+          </form>
+            </div>
 
       </div>
     </div>

@@ -11,6 +11,9 @@ body {
     border: 6px groove var(--accent-color);
     
 }
+* {
+    border: 2px  black;
+}
 .hidden {
     visibility: hidden;
 }
@@ -139,7 +142,7 @@ button:hover {
 }
 
 h3 {
-    font-size:1.5rem;
+    font-size:1.75rem;
     text-align: center;
     display:flex;
     justify-content: center;
@@ -162,7 +165,7 @@ h3 {
     padding:20px;
     width: auto;
 }
-.edit-income {
+.edit-income, .edit-expense {
     max-width: 500px;
     height:125px;
     padding:15px;

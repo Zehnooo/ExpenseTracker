@@ -68,6 +68,7 @@ const incomeDescInp = document.getElementById("income-desc");
 const incomeAmoInp = document.getElementById("income-amount");
 const totalIncome = document.getElementById("day-income");
 const editIncomeForm = document.getElementById("edit-income-form");
+const editExpenseForm = document.getElementById("edit-expense-form")
 
 loadTransactions();
 
@@ -188,7 +189,9 @@ function enterEditMode(id){
     if (!tx) return;
 
     if (tx.type === "income"){
-       const editForm = document.getElementById("edit-income-modal");
+        const expForm = document.getElementById("edit-expense-modal");
+        const editForm = document.getElementById("edit-income-modal");
+        expForm.classList.add("hidden");
         editForm.classList.remove("hidden");
         const editIncDesc = document.getElementById("edit-income-desc");
         const editIncAmou = document.getElementById("edit-income-amount");
@@ -199,7 +202,10 @@ function enterEditMode(id){
         currentEditId = id;
 
     } else if (tx.type === "expense"){
-        return;
+        const incForm = document.getElementById("edit-income-modal");
+        const  editForm = document.getElementById("edit-expense-modal");
+        incForm.classList.add("hidden");
+        editForm.classList.remove("hidden");
     }
 }
 
