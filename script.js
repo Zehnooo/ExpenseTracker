@@ -69,6 +69,9 @@ const incomeAmoInp = document.getElementById("income-amount");
 const totalIncome = document.getElementById("day-income");
 const editIncomeForm = document.getElementById("edit-income-form");
 const editExpenseForm = document.getElementById("edit-expense-form")
+const closeIncomeModalBtn = document.getElementById("close-income-modal");
+const closeExpenseModalBtn = document.getElementById("close-expense-modal");
+
 
 loadTransactions();
 
@@ -206,10 +209,19 @@ function enterEditMode(id){
         const  editForm = document.getElementById("edit-expense-modal");
         incForm.classList.add("hidden");
         editForm.classList.remove("hidden");
+        const editExpComp = document.getElementById("edit-expense-company");
+        const editExpDesc = document.getElementById("edit-expense-desc");
+        const editExpAmou = document.getElementById("edit-expense-amount");
+
+        editExpComp.value = tx.company;
+        editExpDesc.value = tx.description;
+        editExpAmou.value = tx.amount;
+
+        currentEditId = id;
     }
 }
 
-
+// edit income transactions
 editIncomeForm.addEventListener("submit", function (event){
     event.preventDefault();
     const newIncDesc = document.getElementById("edit-income-desc");
@@ -231,7 +243,45 @@ editIncomeForm.addEventListener("submit", function (event){
     document.getElementById("edit-income-modal").classList.add("hidden");
  
     currentEditId = null;
-})
+});
+// edit expense transactions
+
+editExpenseForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const newExpCompany = document.getElementById("edit-expense-company");
+    const newExpDesc = document.getElementById("edit-expense-desc");
+    const newExpAmou = document.getElementById("edit-expense-amount");
+
+    const tx = transactions.find(tx => tx.id === currentEditId);
+    if (!tx) return;
+
+    tx.company = newExpCompany.value;
+    tx.description = newExpDesc.value;
+    tx.amount = newExpAmou.value;
+
+    saveTransactions();
+    transactionList.innerHTML="";
+    transactions.forEach(addTransactionToDOM);
+    updateTotalsFromTransactions();
+    updateBalanceClass();
+
+    document.getElementById("edit-expense-modal").classList.add("hidden");
+
+    currentEditId = null;
+});
+
+// close modal button code
+
+closeIncomeModalBtn.addEventListener("click", () => {
+    document.getElementById("edit-income-modal").classList.add("hidden");
+    currentEditId = null;
+  });
+
+  closeExpenseModalBtn.addEventListener("click", () => {
+    document.getElementById("edit-expense-modal").classList.add("hidden");
+    currentEditId = null;
+  });
 
 // Add submit event listener
 expenseForm.addEventListener("submit", function (event){

@@ -11,6 +11,7 @@
       <h1 class="page-head">Expense Tracker</h1>
       <hr />
       <div class="balance-info">
+        <h3 class="balance-title">📊 Balance Summary 📊</h3>
         <p>Current Balance: <span id="current-balance">$0.00</span></p>
         <p>Total Day Income: <span id="day-income">$0.00</span></p>
         <p>Total Day Expenses: <span id="day-expenses">$0.00</span></p>
@@ -97,6 +98,7 @@
     </div>
 
     <div id="edit-income-modal" class="edit-income hidden">
+      <button id="close-income-modal" class="close-modal no-scale">&times;</button>
       <form id="edit-income-form" role="form">
       <div class="edit-income-content">
         <div class="edit-income-desc-container">
@@ -125,6 +127,7 @@
         </div>
 
         <div id="edit-expense-modal" class="edit-expense hidden">
+          <button id="close-expense-modal" class="close-modal no-scale">&times;</button>
           <form id="edit-expense-form" role="form">
           <div class="edit-expense-content">
             <div class="edit-expense-company-container">

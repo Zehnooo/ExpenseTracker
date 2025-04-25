@@ -15,10 +15,10 @@ body {
     border: 2px  black;
 }
 .hidden {
-    visibility: hidden;
+   visibility: hidden;
 }
 .container {
-    max-width: 1080px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
   }
@@ -46,17 +46,24 @@ input:focus {
     align-items: center;
 }
 label {
-    width:25%;
+    width:100px;
     font-weight: 600;
     margin-bottom: 4px;
     color: var(--accent-color);
 }
-.desc-container, .amount-container, .company-container, .edit-income-desc-container, .edit-income-amount-container {
+.desc-container, .amount-container, .company-container {
 width:100%;
 display:flex;
 justify-content: center;
 align-items: center;
 padding:15px;
+}
+.edit-income-desc-container, .edit-income-amount-container, .edit-expense-company-container, .edit-expense-amount-container, .edit-expense-desc-container {
+    max-width: fit-content;
+    display:flex;
+    justify-content: center;
+    padding:15px;
+    align-items: center;
 }
 ul {
     display: inline;
@@ -124,9 +131,19 @@ li:hover {
     letter-spacing: 2px;
     cursor: pointer
 }
+button {
+    transition: ease .5s;
+}
 button:hover {
     scale:1.2;
-    transition: ease .4s;
+    transition: ease .5s;
+}
+.no-scale:hover {
+    scale:1;
+}
+#edit-income-form button,
+#edit-expense-form button {
+    transition: none !important;
 }
 
 .expense-submit {
@@ -141,33 +158,58 @@ button:hover {
     cursor: pointer
 }
 
-h3 {
-    font-size:1.75rem;
-    text-align: center;
-    display:flex;
+h3, h1 {
+    font-size: 1.75rem;
+    display: flex;
     justify-content: center;
+    align-items: center; /* if you ever need vertical centering */
+    gap: 0.25rem; /* gives emoji and text breathing room */
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: var(--accent-color);
+    margin: 20px auto;
+    max-width: 90%;
 }
 #transaction-form, #income-form {
     text-align: center;
     background-color: white;
     border: 1px solid var(--frame-color);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-bottom:20px;
+    margin-bottom:50px;
     border-radius: 12px;
 }
 #income-form {
     height:350px;
     padding:20px;
-    width:auto;
+    max-width: 1000px;
+    margin: 20px auto;
 }
 #transaction-form {
     height:450px;
     padding:20px;
-    width: auto;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.close-modal {
+    position:absolute;
+    top:5px;
+    right:5px;
+    font-size: 1.5rem;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    color:var(--accent-color);
+    transition: color 0.2s ease;
+}
+.close-modal:hover {
+    color:var(--bad-color);
 }
 .edit-income, .edit-expense {
-    max-width: 500px;
-    height:125px;
+    max-width: fit-content;
+    max-height: fit-content;
     padding:15px;
     position: fixed;
     top:50%;
@@ -178,6 +220,8 @@ h3 {
     border: 1px solid var(--frame-color);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
 }
 .delete-btn {
     position: absolute;
@@ -190,7 +234,6 @@ h3 {
     color: white;
     visibility: hidden;
     cursor: pointer;
-    transition: opacity 0.2s ease;
     padding: 0;
     margin-bottom:20px;
 }
@@ -210,7 +253,6 @@ li:hover .delete-btn {
     color: white;
     visibility: hidden;
     cursor: pointer;
-    transition: opacity 0.2s ease;
     padding: 0;
     margin-bottom:20px;
 }
@@ -246,7 +288,7 @@ li:hover .edit-btn {
     border-radius: 10px;
     padding: 15px 20px;
     background-color: white;
-    width:auto;
+    max-width: 1000px;
     margin: 0 auto 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
@@ -255,7 +297,7 @@ li:hover .edit-btn {
     border-radius: 10px;
     padding: 15px 20px;
     background-color: white;
-    width:auto;
+    max-width: 1000px;
     margin: 0 auto 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
