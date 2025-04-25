@@ -18,29 +18,34 @@
       <form id="income-form" role="form">
         <h3>💰 Enter Income Transactions 💰</h3>
         <div class="input-info">
+          <div class="desc-container">
           <label for="income-desc">Description</label>
           <input
             type="text"
             id="income-desc"
-            placeholder="Income Description"
+            placeholder="Paycheck, Bonus, etc."
             autocomplete="off"
             required
           />
+          </div>
+          <div class="amount-container">
           <label for="income-amount">Amount</label>
           <input
             type="number"
             id="income-amount"
-            placeholder="Income Amount (positive)"
+            placeholder="(positive)"
             autocomplete="off"
             step=".01"
             required
           />
-          <button type="submit" class="income-submit">Add Transaction</button>
+          </div>
+          <button type="submit" class="income-submit">Submit</button>
         </div>
       </form>
       <form id="transaction-form" role="form">
         <h3>💸 Enter Expense Transactions 💸</h3>
         <div class="input-info">
+          <div class="company-container">
           <label for="company">Company</label>
           <input
             type="text"
@@ -49,38 +54,81 @@
             autocomplete="off"
             required
           />
+        </div>
+        <div class="desc-container">
           <label for="desc">Description</label>
           <input
             type="text"
             id="desc"
-            placeholder="Transaction Description"
+            placeholder="Groceries, Car Repairs, etc."
             required
             autocomplete="off"
           />
+        </div>
+        <div class="amount-container">
           <label for="amount">Amount</label>
           <input
             type="number"
             id="amount"
-            placeholder="Amount (positive or negative)"
+            placeholder="(positive or negative)"
             required
             step="0.01"
             autocomplete="off"
           />
-          <button type="submit" class="expense-submit">Add Transaction</button>
+        </div>
+          <button type="submit" class="expense-submit">Submit</button>
         </div>
       </form>
-
+      <div class="recent-container">
       <h3>⏳ Recent Transactions ⌛</h3>
       <div class="container">
         <ul id="transaction-list" aria-live="polite"></ul>
       </div>
+    </div>
+    <div class="del-container">
       <div class="container">
+        <h3>View Deleted Transactions</h3>
         <details id="deleted-log">
-          <summary>View Deleted Transactions</summary>
+          <summary></summary>
           <ul id="deleted-transactions"></ul>
         </details>
       </div>
     </div>
+    </div>
+
+    <div id="edit-income-modal" class="edit-income hidden">
+      <form id="edit-income-form" role="form">
+      <div class="edit-income-content">
+        <div class="edit-income-desc-container">
+        <label for="edit-income-desc">Description</label>
+          <input
+            type="text"
+            id="edit-income-desc"
+            placeholder="Paycheck, Bonus, etc."
+            autocomplete="off"
+          />
+        </div>
+          
+          <div class="edit-income-amount-container">
+          <label for="edit-income-amount">Amount</label>
+          <input
+            type="number"
+            id="edit-income-amount"
+            placeholder="(positive)"
+            autocomplete="off"
+            step=".01"
+          />
+          </div>
+          <button type="submit" class="edit-income-submit">Submit</button>
+        </div>
+      </form>
+        </div>
+
+
+      </div>
+    </div>
+
+
     <script src="script.js"></script>
   </body>
 </html>

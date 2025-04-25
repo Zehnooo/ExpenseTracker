@@ -1,7 +1,7 @@
 // Create empty transaction array for storing
 let transactions = [];
 let deletedTransactions = [];
-
+let currentEditId = null;
 // Function to save transactions
 function saveTransactions() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -67,6 +67,7 @@ const totalExpense = document.getElementById("day-expenses");
 const incomeDescInp = document.getElementById("income-desc");
 const incomeAmoInp = document.getElementById("income-amount");
 const totalIncome = document.getElementById("day-income");
+const editIncomeForm = document.getElementById("edit-income-form");
 
 loadTransactions();
 
@@ -91,6 +92,7 @@ function deleteTransaction(id){
     transactionList.innerHTML = "";
     transactions.forEach(addTransactionToDOM);
     updateTotalsFromTransactions();
+    updateBalanceClass();
 }
 
 function addTransactionToDOM(tx) {
@@ -122,8 +124,16 @@ function addTransactionToDOM(tx) {
     delBtn.textContent = "🗑️";
     delBtn.classList.add("delete-btn");
     delBtn.addEventListener("click", () => deleteTransaction(tx.id));
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent="✏️";
+    editBtn.classList.add("edit-btn");
+    editBtn.addEventListener("click", () => enterEditMode(tx.id)); 
+
+    updateTotalsFromTransactions();
     li.appendChild(content);
     li.appendChild(delBtn);
+    li.appendChild(editBtn);
     transactionList.prepend(li);
 }
 function undoTransactionDel(id){
@@ -139,6 +149,7 @@ function undoTransactionDel(id){
 
     addDeletedTransactions();
     updateTotalsFromTransactions();
+    updateBalanceClass();
 } 
 
 function addDeletedTransactions(){
@@ -164,13 +175,57 @@ function addDeletedTransactions(){
         undoBtn.textContent = "↩️";
         undoBtn.classList.add("delete-btn"); // reuse styles
         undoBtn.addEventListener("click", () => undoTransactionDel(tx.id));
-
+        updateTotalsFromTransactions();
+        updateBalanceClass();
         li.appendChild(content);
         li.appendChild(undoBtn);
         deletedList.prepend(li);
     });
 }
 
+function enterEditMode(id){
+    const tx = transactions.find(tx => tx.id === id);
+    if (!tx) return;
+
+    if (tx.type === "income"){
+       const editForm = document.getElementById("edit-income-modal");
+        editForm.classList.remove("hidden");
+        const editIncDesc = document.getElementById("edit-income-desc");
+        const editIncAmou = document.getElementById("edit-income-amount");
+     
+        editIncDesc.value = tx.description;
+        editIncAmou.value = tx.amount;
+
+        currentEditId = id;
+
+    } else if (tx.type === "expense"){
+        return;
+    }
+}
+
+
+editIncomeForm.addEventListener("submit", function (event){
+    event.preventDefault();
+    const newIncDesc = document.getElementById("edit-income-desc");
+    const newIncAmou = document.getElementById("edit-income-amount");
+
+    const tx = transactions.find(tx => tx.id === currentEditId);
+    if (!tx) return;
+
+    
+
+    tx.description = newIncDesc.value;
+    tx.amount = newIncAmou.value;
+    saveTransactions();
+    transactionList.innerHTML="";
+    transactions.forEach(addTransactionToDOM);
+    updateTotalsFromTransactions();
+    updateBalanceClass();
+
+    document.getElementById("edit-income-modal").classList.add("hidden");
+ 
+    currentEditId = null;
+})
 
 // Add submit event listener
 expenseForm.addEventListener("submit", function (event){

@@ -2,14 +2,17 @@
     --good-color: #0b3954;       /* Deep Navy */
     --bad-color: #b93131;        /* Soft Coral */
     --background-color: #f4f4f9; /* Light Gray */
-    --accent-color: #e0ff4f;     /* Vibrant Lime */
+    --accent-color: #2c5282;
     --text-color: #1c1c1c;       /* Dark Charcoal */
     --frame-color: #c4c4c4; /* Soft Charcoal */
   }
 body {
     background: var(--background-color);
     border: 6px groove var(--accent-color);
-
+    
+}
+.hidden {
+    visibility: hidden;
 }
 .container {
     max-width: 1080px;
@@ -18,7 +21,39 @@ body {
   }
 
 input {
-    width:30ch;
+   padding: 10px 12px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+   font-size: 1rem;
+   transition: border-color 0.2s ease;
+   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+   width:30ch;
+}
+input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(70, 63, 58, 0.1);
+}
+.input-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Clean spacing between form fields */
+    width:100%;
+    margin: 0 auto;
+    align-items: center;
+}
+label {
+    width:25%;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--accent-color);
+}
+.desc-container, .amount-container, .company-container, .edit-income-desc-container, .edit-income-amount-container {
+width:100%;
+display:flex;
+justify-content: center;
+align-items: center;
+padding:15px;
 }
 ul {
     display: inline;
@@ -76,46 +111,109 @@ li:hover {
     color:white;
 }
 .income-submit {
-    transition: ease-in-out .4s;
+    margin-top: 20px;
+    color: #ffffff;
+    background-color: #0b3954;
+    font-size: 19px;
+    border: 2px solid #c4c4c4;
+    border-radius: 10px;
+    padding: 15px 50px;
+    letter-spacing: 2px;
+    cursor: pointer
 }
-.income-submit:hover {
-    background-color: var(--good-color);
-    color:white;
-    scale:1.25;
+button:hover {
+    scale:1.2;
+    transition: ease .4s;
 }
+
 .expense-submit {
-    transition: ease-in .4s;
-    
+    margin-top: 20px;
+    color: #ffffff;
+    background-color: #b93131;
+    font-size: 19px;
+    border: 2px solid #c4c4c4;
+    border-radius: 10px;
+    padding: 15px 50px;
+    letter-spacing: 2px;
+    cursor: pointer
 }
-.expense-submit:hover {
-    background: var(--bad-color);
-    color:white;
-    scale:1.25;
-}
+
 h3 {
     font-size:1.5rem;
     text-align: center;
+    display:flex;
+    justify-content: center;
 }
-form {
+#transaction-form, #income-form {
     text-align: center;
+    background-color: white;
+    border: 1px solid var(--frame-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom:20px;
+    border-radius: 12px;
+}
+#income-form {
+    height:350px;
+    padding:20px;
+    width:auto;
+}
+#transaction-form {
+    height:450px;
+    padding:20px;
+    width: auto;
+}
+.edit-income {
+    max-width: 500px;
+    height:125px;
+    padding:15px;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: white;
+    border: 1px solid var(--frame-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 12px;
 }
 .delete-btn {
     position: absolute;
-    right: 10%;
+    right: 15%;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
     font-size: 2rem;
     color: white;
-    opacity: 0;
+    visibility: hidden;
     cursor: pointer;
     transition: opacity 0.2s ease;
     padding: 0;
+    margin-bottom:20px;
 }
 li:hover .delete-btn {
-    opacity: 1;
-    border-radius: 50%;
+    visibility:visible;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.edit-btn {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    visibility: hidden;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    padding: 0;
+    margin-bottom:20px;
+}
+li:hover .edit-btn {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    visibility:visible;
 }
 .positive {
     color:green;
@@ -140,4 +238,24 @@ li:hover .delete-btn {
    justify-content: space-between;
    align-items: center;
 }
-
+.recent-container {
+    border: 1px solid var(--frame-color);
+    border-radius: 10px;
+    padding: 15px 20px;
+    background-color: white;
+    width:auto;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.del-container {
+    border: 1px solid var(--frame-color);
+    border-radius: 10px;
+    padding: 15px 20px;
+    background-color: white;
+    width:auto;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+summary {
+    text-align: center;
+}
