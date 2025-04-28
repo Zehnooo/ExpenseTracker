@@ -307,6 +307,28 @@ closeIncomeModalBtn.addEventListener("click", () => {
     currentEditId = null;
   });
 
+
+  // filter transactions
+  function transactionFilter(type) {
+    transactionList.innerHTML = "";
+
+    let filtered = [];
+
+    if (type === "all"){
+        filtered = transactions;
+    } else {
+        filtered = transactions.filter(tx => tx.type === type);
+    }
+    filtered.forEach(addTransactionToDOM);
+}
+
+document.getElementById("filter-all").addEventListener("click", () => transactionFilter("all"));
+document.getElementById("filter-income").addEventListener("click", () => transactionFilter("income"));
+document.getElementById("filter-expense").addEventListener("click", () => transactionFilter("expense"));
+
+
+
+
 // Add submit event listener
 expenseForm.addEventListener("submit", function (event){
     event.preventDefault(); // stops page refresh on submit
@@ -365,6 +387,7 @@ expenseForm.addEventListener("submit", function (event){
     expenseForm.reset();
 });
 
+// submit income
 incomeForm.addEventListener("submit", function (event){
     event.preventDefault();
 
