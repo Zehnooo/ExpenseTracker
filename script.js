@@ -159,7 +159,6 @@ function addTransactionToDOM(tx) {
     }
 
   
-    li.dataset.id = tx.id;
 
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
@@ -177,6 +176,7 @@ function addTransactionToDOM(tx) {
     li.appendChild(delBtn);
     li.appendChild(editBtn);
     transactionList.appendChild(li);
+
    
 }
 // undo deleted transaction
@@ -397,28 +397,16 @@ expenseForm.addEventListener("submit", function (event){
         hour:'2-digit',
         minute: '2-digit'
     });
-    const timestamp = now.toISOString(); 
+   
 
     const balance = parseDisplayedAmount(currentBalance);
     const updatedBalance = balance - amount;
-
     currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
-
     const updatedExpense = expenseTotal + amount;
-
     totalExpense.textContent = `$${updatedExpense.toFixed(2)}`;
 
+    const timestamp = now.toISOString(); 
     const id =  crypto.randomUUID();
-
-    addTransactionToDOM({
-        type:"expense",
-        company,
-        description,
-        amount,
-        date: formattedDate,
-        time: currentTime,
-        timestamp: timestamp
-    });
 
     const newTx = {
         id: id,
@@ -431,9 +419,10 @@ expenseForm.addEventListener("submit", function (event){
         timestamp: timestamp
     };
 
+    addTransactionToDOM(newTx, true);
     transactions.push(newTx);
     saveTransactions();
-    transactionSorter();
+    updateTotalsFromTransactions();
     updateBalanceClass();
     expenseForm.reset();
 });
@@ -473,12 +462,13 @@ incomeForm.addEventListener("submit", function (event){
         time: currentTime,
         timestamp: timestamp
     };
-  
+
+    addTransactionToDOM(newTx, true);
     transactions.push(newTx);
     saveTransactions();
-    transactionSorter();
+    updateTotalsFromTransactions();
     updateBalanceClass();
-    
+
     incomeForm.reset();
 });
 

@@ -57,6 +57,7 @@ display:flex;
 justify-content: center;
 align-items: center;
 padding:15px;
+gap:25px;
 }
 .edit-income-desc-container, .edit-income-amount-container, .edit-expense-company-container, .edit-expense-amount-container, .edit-expense-desc-container {
     max-width: fit-content;
