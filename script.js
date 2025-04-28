@@ -205,12 +205,31 @@ function addDeletedTransactions(){
         undoBtn.textContent = "↩️";
         undoBtn.classList.add("delete-btn"); // reuse styles
         undoBtn.addEventListener("click", () => undoTransactionDel(tx.id));
+
+        const permDelete = document.createElement("button");
+        permDelete.textContent = "✖️";
+        permDelete.classList.add("edit-btn");
+        permDelete.addEventListener("click", () => {
+           if(confirm("Are you sure you want to permanetly delete this transaction?") === true) {
+            deletedTransactions = deletedTransactions.filter(dtx => dtx.id !== tx.id);
+            saveTransactions();
+            addDeletedTransactions();
+            hideEmpty();
+           } else {
+            return;
+           }
+
+         
+        })
+        
+
         updateTotalsFromTransactions();
         updateBalanceClass();
         transactionSorter();
         hideEmpty();
         li.appendChild(content);
         li.appendChild(undoBtn);
+        li.appendChild(permDelete);
         deletedList.prepend(li);
     });
 }
