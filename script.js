@@ -38,7 +38,9 @@ function updateTotalsFromTransactions() {
 
     const balance = incomeTotal - expenseTotal;
 
-    currentBalance.textContent = `$${balance.toFixed(2)}`;
+    const formattedBalance = Math.abs(balance).toFixed(2);
+
+    currentBalance.textContent = balance < 0 ? `-$${formattedBalance}` : `$${formattedBalance}`;
     totalIncome.textContent = `$${incomeTotal.toFixed(2)}`;
     totalExpense.textContent = `$${expenseTotal.toFixed(2)}`;
 

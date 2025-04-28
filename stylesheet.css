@@ -130,7 +130,12 @@ li:hover {
     border-radius: 10px;
     padding: 15px 50px;
     letter-spacing: 2px;
-    cursor: pointer
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .expense-submit, .edit-expense-submit, #filter-expense {
     margin-top:15px;
@@ -142,7 +147,12 @@ li:hover {
     border-radius: 10px;
     padding: 15px 50px;
     letter-spacing: 2px;
-    cursor: pointer
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #filter-all {
     margin-top:15px;
@@ -155,6 +165,13 @@ li:hover {
     padding: 15px 50px;
     letter-spacing: 2px;
     cursor: pointer;
+}
+#filter-all, #filter-expense, #filter-income {
+    width:150px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container button {
@@ -210,6 +227,11 @@ hr {
     padding:20px;
     max-width: 1000px;
     margin: 20px auto;
+}
+.edit-expense-submit-container, .edit-income-submit-container {
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-modal {
@@ -280,7 +302,7 @@ li:hover .edit-btn {
 .edit-btn:hover {
   transform: scale(1.2); /* scale with translation preserved */
 }
-.positive {
+.positive  {
     color:green;
 }
 .negative {
