@@ -154,11 +154,15 @@ li:hover {
     justify-content: center;
     align-items: center;
 }
+#filter-buttons {
+    margin: 0 auto;
+    
+}
 #filter-all {
     margin-top:15px;
     margin-bottom:25px;
     color: #ffffff;
-    background-color: #6b6b6b; /* Neutral dark gray */
+    background-color: #a1aaaa;
     font-size: 19px;
     border: 2px solid #c4c4c4;
     border-radius: 10px;
@@ -172,6 +176,33 @@ li:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    
+}
+
+#data-buttons button {
+    margin-bottom:25px;
+    color: #ffffff;
+    background-color: #777777;
+    font-size: 19px;
+    border: 2px solid #c4c4c4;
+    border-radius: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-wrap: nowrap;
+    width:250px;
+    height:50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+#data-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    padding: 15px 50px;
+    gap:50px;
 }
 
 .container button {
@@ -179,7 +210,6 @@ li:hover {
 }
 .container button:hover {
    transform: scale(1.2);
-    transition: ease .5s;
 }
 .no-scale:hover {
     scale:none !important;
@@ -189,7 +219,6 @@ li:hover {
 }
 .edit-expense-submit:hover, .edit-income-submit:hover {
     transform: scale(1.2);
-    transition: ease .5s;
 }
 
 

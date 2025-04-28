@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="stylesheet.css" />
+    <link rel="stylesheet" href="./stylesheet.css" />
   </head>
   <body>
     <div class="container">
@@ -103,17 +103,9 @@
             <button id="filter-income">Income</button>
             <button id="filter-expense">Expense</button>
           </div>
-          <div
-            id="data-buttons"
-            style="
-              display: flex;
-              justify-content: center;
-              gap: 20px;
-              margin-bottom: 20px;
-            "
-          >
-            <button id="export-btn">Export as CSV</button>
-            <button id="import-btn">Import from CSV</button>
+          <div id="data-buttons">
+            <button id="export-btn">Export as CSV 📩</button>
+            <button id="import-btn">Import from CSV 📤</button>
           </div>
           <ul id="transaction-list" aria-live="polite"></ul>
         </div>
@@ -208,6 +200,6 @@
       </form>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
