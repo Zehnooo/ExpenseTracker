@@ -111,18 +111,24 @@ function parseDisplayedAmount(element) {
 // push transaction to deleted transactions
 function deleteTransaction(id){
     const deletedTx = transactions.find(tx => tx.id === id);
-    if (deletedTx) {
-        deletedTransactions.push(deletedTx);
+    if (!deletedTx) return;
+
+    const li = document.querySelector(`#transaction-list li[data-id="${id}"]`);
+
+    if (li) {
+        li.classList.add('fade-out');
+        setTimeout(() => {
+            transactions = transactions.filter(tx => tx.id !== id);
+            deletedTransactions.push(deletedTx);
+            saveTransactions();
+            addDeletedTransactions();
+            transactionSorter();
+            updateTotalsFromTransactions();
+            updateBalanceClass();
+            hideEmpty();
+        }, 400);
     }
-
-    transactions = transactions.filter(tx => tx.id !== id);
-    addDeletedTransactions();
-    saveTransactions();
-
-    transactionSorter();
-    updateTotalsFromTransactions();
-    updateBalanceClass();
-    hideEmpty();
+   
 }
 // rendering transactions 
 function addTransactionToDOM(tx) {
@@ -142,6 +148,7 @@ function addTransactionToDOM(tx) {
         <div class="tx-row">📝 ${tx.description}</div>
         <div class="tx-row amount-line">💵 ${formattedAmount}</div>
     `;
+
     } else {
         li.classList.add("expense");
         content.innerHTML = `
@@ -150,6 +157,10 @@ function addTransactionToDOM(tx) {
         <div class="tx-row amount-line">💵 ${formattedAmount}</div>
     `;
     }
+
+  
+    li.dataset.id = tx.id;
+
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
     delBtn.classList.add("delete-btn");
@@ -166,20 +177,33 @@ function addTransactionToDOM(tx) {
     li.appendChild(delBtn);
     li.appendChild(editBtn);
     transactionList.appendChild(li);
+   
 }
 // undo deleted transaction
 function undoTransactionDel(id){
     const tx = deletedTransactions.find(tx => tx.id === id);
     if (!tx) return;
 
-    deletedTransactions = deletedTransactions.filter(tx => tx.id !== id);
-    transactions.push(tx);
-    saveTransactions();
-    transactionSorter();
-    addDeletedTransactions();
-    updateTotalsFromTransactions();
-    updateBalanceClass();
-    hideEmpty();
+    const li = document.querySelector(`#deleted-transactions li[data-id="${id}"]`);
+    if (li){
+        li.classList.add('fade-out');
+
+        setTimeout(() => {
+
+            deletedTransactions = deletedTransactions.filter(tx => tx.id !== id);
+            transactions.push(tx);
+            saveTransactions();
+            transactionSorter();
+            addDeletedTransactions();
+            updateTotalsFromTransactions();
+            updateBalanceClass();
+            hideEmpty();
+
+        }, 400);
+      
+    }
+    
+    
 } 
 // render deleted transactions
 function addDeletedTransactions(){
@@ -200,6 +224,7 @@ function addDeletedTransactions(){
         <div class="tx-row">📝 ${tx.description}</div>
         <div class="tx-row amount-line">💵 ${formattedAmount}</div>
     `;
+        li.dataset.id = tx.id;
 
         const undoBtn = document.createElement("button");
         undoBtn.textContent = "↩️";
@@ -209,29 +234,33 @@ function addDeletedTransactions(){
         const permDelete = document.createElement("button");
         permDelete.textContent = "✖️";
         permDelete.classList.add("edit-btn");
+
         permDelete.addEventListener("click", () => {
-           if(confirm("Are you sure you want to permanetly delete this transaction?") === true) {
-            deletedTransactions = deletedTransactions.filter(dtx => dtx.id !== tx.id);
-            saveTransactions();
-            addDeletedTransactions();
-            hideEmpty();
-           } else {
-            return;
+           if(confirm("Are you sure you want to permanetly delete this transaction?")) {
+
+            li.classList.add('flash-delete');
+
+                setTimeout(() => {
+                    deletedTransactions = deletedTransactions.filter(dtx => dtx.id !== tx.id);
+                    saveTransactions();
+                    addDeletedTransactions();
+                    hideEmpty();
+
+
+                }, 400);
            }
+        }) ;
 
-         
-        })
-        
-
-        updateTotalsFromTransactions();
-        updateBalanceClass();
-        transactionSorter();
-        hideEmpty();
+       
+      
         li.appendChild(content);
         li.appendChild(undoBtn);
         li.appendChild(permDelete);
         deletedList.prepend(li);
     });
+    updateTotalsFromTransactions();
+    updateBalanceClass();
+    transactionSorter();
 }
 // activate edit
 function enterEditMode(id){
