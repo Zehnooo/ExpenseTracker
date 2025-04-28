@@ -12,13 +12,13 @@ function loadTransactions() {
 	const stored = localStorage.getItem("transactions");
 	if (stored) {
 		transactions = JSON.parse(stored);
-		transactions.forEach(addTransactionToDOM);
 	}
 
     const deleted = localStorage.getItem("del-transactions");
     if (deleted) {
         deletedTransactions = JSON.parse(deleted);
     }
+    transactionSorter();
     updateTotalsFromTransactions();
     addDeletedTransactions();
 }
@@ -71,10 +71,32 @@ const editIncomeForm = document.getElementById("edit-income-form");
 const editExpenseForm = document.getElementById("edit-expense-form")
 const closeIncomeModalBtn = document.getElementById("close-income-modal");
 const closeExpenseModalBtn = document.getElementById("close-expense-modal");
+const deleteLog = document.getElementById("delete-log-container");
 
 
+// hide deleted log if empty show if not
+function hideEmpty(){
+    if (deletedTransactions.length === 0){
+        deleteLog.classList.add("hidden");
+    } else {
+        deleteLog.classList.remove("hidden");
+    }
+}
+
+
+
+function transactionSorter(){
+transactions.sort((a, b) =>  new Date(b.timestamp) - new Date(a.timestamp));
+  transactionList.innerHTML="";
+  transactions.forEach(addTransactionToDOM);
+}
+
+
+// load all transactions on page load
 loadTransactions();
 
+// hide deleted log on page load if empty
+hideEmpty();
 
 // DOM Parsing function
 function parseDisplayedAmount(element) {
@@ -83,6 +105,7 @@ function parseDisplayedAmount(element) {
 	const parsed = parseFloat(cleaned);
 	return isNaN(parsed) ? 0 : parsed;
 }
+// push transaction to deleted transactions
 function deleteTransaction(id){
     const deletedTx = transactions.find(tx => tx.id === id);
     if (deletedTx) {
@@ -93,12 +116,12 @@ function deleteTransaction(id){
     addDeletedTransactions();
     saveTransactions();
 
-    transactionList.innerHTML = "";
-    transactions.forEach(addTransactionToDOM);
+    transactionSorter();
     updateTotalsFromTransactions();
     updateBalanceClass();
+    hideEmpty();
 }
-
+// rendering transactions 
 function addTransactionToDOM(tx) {
     const li = document.createElement("li");
     li.classList.add(tx.type);
@@ -135,11 +158,13 @@ function addTransactionToDOM(tx) {
     editBtn.addEventListener("click", () => enterEditMode(tx.id)); 
 
     updateTotalsFromTransactions();
+    hideEmpty();
     li.appendChild(content);
     li.appendChild(delBtn);
     li.appendChild(editBtn);
-    transactionList.prepend(li);
+    transactionList.appendChild(li);
 }
+// undo deleted transaction
 function undoTransactionDel(id){
     const tx = deletedTransactions.find(tx => tx.id === id);
     if (!tx) return;
@@ -147,15 +172,13 @@ function undoTransactionDel(id){
     deletedTransactions = deletedTransactions.filter(tx => tx.id !== id);
     transactions.push(tx);
     saveTransactions();
-
-    transactionList.innerHTML = "";
-    transactions.forEach(addTransactionToDOM);
-
+    transactionSorter();
     addDeletedTransactions();
     updateTotalsFromTransactions();
     updateBalanceClass();
+    hideEmpty();
 } 
-
+// render deleted transactions
 function addDeletedTransactions(){
     const deletedList = document.getElementById("deleted-transactions");
     deletedList.innerHTML = "";
@@ -181,12 +204,14 @@ function addDeletedTransactions(){
         undoBtn.addEventListener("click", () => undoTransactionDel(tx.id));
         updateTotalsFromTransactions();
         updateBalanceClass();
+        transactionSorter();
+        hideEmpty();
         li.appendChild(content);
         li.appendChild(undoBtn);
         deletedList.prepend(li);
     });
 }
-
+// activate edit
 function enterEditMode(id){
     const tx = transactions.find(tx => tx.id === id);
     if (!tx) return;
@@ -235,8 +260,7 @@ editIncomeForm.addEventListener("submit", function (event){
     tx.description = newIncDesc.value;
     tx.amount = newIncAmou.value;
     saveTransactions();
-    transactionList.innerHTML="";
-    transactions.forEach(addTransactionToDOM);
+    transactionSorter();
     updateTotalsFromTransactions();
     updateBalanceClass();
 
@@ -300,6 +324,7 @@ expenseForm.addEventListener("submit", function (event){
         hour:'2-digit',
         minute: '2-digit'
     });
+    const timestamp = now.toISOString(); 
 
     const balance = parseDisplayedAmount(currentBalance);
     const updatedBalance = balance - amount;
@@ -310,28 +335,33 @@ expenseForm.addEventListener("submit", function (event){
 
     totalExpense.textContent = `$${updatedExpense.toFixed(2)}`;
 
+    const id =  crypto.randomUUID();
+
     addTransactionToDOM({
         type:"expense",
         company,
         description,
         amount,
         date: formattedDate,
-        time: currentTime
+        time: currentTime,
+        timestamp: timestamp
     });
 
-    const id =  crypto.randomUUID();
-
-    transactions.push({
+    const newTx = {
         id: id,
         type:"expense",
         company,
         description,
         amount,
         date: formattedDate,
-        time: currentTime
-    });
-    updateBalanceClass();
+        time: currentTime,
+        timestamp: timestamp
+    };
+
+    transactions.push(newTx);
     saveTransactions();
+    transactionSorter();
+    updateBalanceClass();
     expenseForm.reset();
 });
 
@@ -350,6 +380,7 @@ incomeForm.addEventListener("submit", function (event){
         hour:'2-digit',
         minute: '2-digit'
     });
+    const timestamp = now.toISOString();
     const incomeBalance = incTotal + incAmou;
     const balance = parseFloat(currentBalance.textContent.replace(/[^0-9.-]+/g, ""));
     const updatedBalance = balance + incAmou;
@@ -357,26 +388,23 @@ incomeForm.addEventListener("submit", function (event){
     currentBalance.textContent = `$${updatedBalance.toFixed(2)}`;
     totalIncome.textContent = `$${incomeBalance.toFixed(2)}`;
 
+    const id = crypto.randomUUID();
     
-   addTransactionToDOM({
-    type:"income",
-    description: incDescrip,
-    amount: incAmou,
-    date: formattedDate,
-    time: currentTime
-   });
-   const id = crypto.randomUUID();
-
-    transactions.push({
+    const newTx = {
         id: id,
-        type:"income",
+        type: "income",
         description: incDescrip,
         amount: incAmou,
         date: formattedDate,
-        time: currentTime
-    });
-    updateBalanceClass();
+        time: currentTime,
+        timestamp: timestamp
+    };
+  
+    transactions.push(newTx);
     saveTransactions();
+    transactionSorter();
+    updateBalanceClass();
+    
     incomeForm.reset();
 });
 updateBalanceClass();
