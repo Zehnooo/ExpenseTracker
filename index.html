@@ -108,10 +108,17 @@
               Export as CSV
               <span style="position: relative; top: -2px">📩</span>
             </button>
+
             <button id="import-btn">
               Import from CSV
               <span style="position: relative; top: -2px">📤</span>
             </button>
+            <input
+              type="file"
+              id="import-file"
+              accept=".csv"
+              style="display: none"
+            />
           </div>
           <ul id="transaction-list" aria-live="polite"></ul>
         </div>

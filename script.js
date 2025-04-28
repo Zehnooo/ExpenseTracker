@@ -76,6 +76,7 @@ const closeExpenseModalBtn = document.getElementById("close-expense-modal");
 const deleteLog = document.getElementById("delete-log-container");
 const exportBtn = document.getElementById("export-btn");
 const importBtn = document.getElementById("import-btn");
+const importFile = document.getElementById("import-file");
 
 // hide deleted log if empty show if not
 function hideEmpty(){
@@ -134,6 +135,7 @@ function deleteTransaction(id){
 function addTransactionToDOM(tx) {
     const li = document.createElement("li");
     li.classList.add(tx.type);
+    li.dataset.id = tx.id;
 
     const content = document.createElement("span");
     content.classList.add("tx-content");
@@ -158,7 +160,7 @@ function addTransactionToDOM(tx) {
     `;
     }
 
-  
+   
 
     const delBtn = document.createElement("button");
     delBtn.textContent = "🗑️";
@@ -260,7 +262,6 @@ function addDeletedTransactions(){
     });
     updateTotalsFromTransactions();
     updateBalanceClass();
-    transactionSorter();
 }
 // activate edit
 function enterEditMode(id){
@@ -502,6 +503,25 @@ function exportTransactions(){
          link.click();
          document.body.removeChild(link);
 }
+
+importBtn.addEventListener("click", () => {
+    importFile.click();
+});
+
+importFile.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const fileContent = e.target.result;
+      console.log(fileContent); // you now have the CSV text
+    };
+    reader.readAsText(file);
+  });
+
+
+
 
 updateBalanceClass();
 
