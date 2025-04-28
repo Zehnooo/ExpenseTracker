@@ -74,7 +74,8 @@ const editExpenseForm = document.getElementById("edit-expense-form")
 const closeIncomeModalBtn = document.getElementById("close-income-modal");
 const closeExpenseModalBtn = document.getElementById("close-expense-modal");
 const deleteLog = document.getElementById("delete-log-container");
-
+const exportBtn = document.getElementById("export-btn");
+const importBtn = document.getElementById("import-btn");
 
 // hide deleted log if empty show if not
 function hideEmpty(){
@@ -86,7 +87,7 @@ function hideEmpty(){
 }
 
 
-
+// sort transactions based on timestamp
 function transactionSorter(){
 transactions.sort((a, b) =>  new Date(b.timestamp) - new Date(a.timestamp));
   transactionList.innerHTML="";
@@ -432,6 +433,38 @@ incomeForm.addEventListener("submit", function (event){
     
     incomeForm.reset();
 });
+
+exportBtn.addEventListener("click", exportTransactions);
+function exportTransactions(){
+    let csvContent = "data:text/csv;charset=utf-8,"; // inform browser a csv file is being created
+
+    //create headers
+    csvContent += "Type,Company,Description,Amount,Date,Time,Timestamp\n";
+
+    // run transaction data to rows
+    transactions.forEach(tx => {
+        const row = [
+            tx.type,
+            tx.company || "N/A",
+            tx.description,
+            tx.amount,
+            tx.date.replace(/,/g, ""),
+            tx.time,
+            tx.timestamp
+         ].join(",");
+
+         csvContent += row + "\n";
+    });
+
+         const contentReady = encodeURI(csvContent);
+         const link = document.createElement("a");
+         link.setAttribute("href", contentReady);
+         link.setAttribute("download","transactions.csv");
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+}
+
 updateBalanceClass();
 
 

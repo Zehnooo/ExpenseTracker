@@ -88,12 +88,13 @@
       </form>
       <div class="recent-container">
         <h3>⏳ Recent Transactions ⌛</h3>
+
         <div class="container">
           <div
             id="filter-buttons"
             style="
               display: flex;
-              justify-content: space-evenly;
+              justify-content: center;
               gap: 20px;
               margin-bottom: 20px;
             "
@@ -101,6 +102,18 @@
             <button id="filter-all">All</button>
             <button id="filter-income">Income</button>
             <button id="filter-expense">Expense</button>
+          </div>
+          <div
+            id="data-buttons"
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 20px;
+              margin-bottom: 20px;
+            "
+          >
+            <button id="export-btn">Export as CSV</button>
+            <button id="import-btn">Import from CSV</button>
           </div>
           <ul id="transaction-list" aria-live="polite"></ul>
         </div>
