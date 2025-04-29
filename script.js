@@ -496,7 +496,7 @@ function exportTransactions(){
     let csvContent = "data:text/csv;charset=utf-8,"; // inform browser a csv file is being created
 
     //create headers
-    csvContent += "Type,Company,Description,Amount,Date,Time,Timestamp\n";
+    csvContent += "Type,Company,Description,Amount,Date,Time\n";
 
     // run transaction data to rows
     transactions.forEach(tx => {
@@ -506,8 +506,7 @@ function exportTransactions(){
             tx.description,
             tx.amount,
             tx.date.replace(/,/g, ""),
-            tx.time,
-            tx.timestamp
+            tx.time
          ].join(",");
 
          csvContent += row + "\n";
@@ -552,8 +551,6 @@ function formatImportedTime(time){
     const hasTime = /\b(?:AM|PM)\b/i.test(adjTime);
     const isValidTime = /^\d{1,2}:\d{2}(?:\s?(?:AM|PM))?$/i.test(adjTime);
 
-  
-
     if (hasTime && isValidTime) {
         return adjTime.toUpperCase();
     }
@@ -565,7 +562,31 @@ function formatImportedTime(time){
     console.warn("Invalid transaction time format:", time);
     return null;
 }
+// create import timestamp
+function generateTimeStamp(dateStr, timeStr){
+    if (!dateStr || !timeStr) return null;
 
+    const dateP = formatImportedDate(dateStr);
+    const timeP = formatImportedTime(timeStr);
+
+    if (!dateP || !timeP) return null;
+
+    const dateTime = `${dateP} ${timeP}`;
+    const parsed = new Date(dateTime);
+
+    if (isNaN(parsed.getTime())){
+        console.warn("Could not generate timestamp:", dateTime);
+        return null;
+    }
+    return parsed.toISOString();
+}
+function timeStampFallback(dateStr){
+    const formattedDate = formatImportedDate(dateStr);
+    if (!formattedDate) return new Date().toISOString();
+
+    const parsed = new Date(`${formattedDate} 12:00 PM`);
+    return isNaN(parsed.getTime()) ? new Date().toISOString() : parsed.toISOString();
+}
 // Function to map CSV to transactions
 function mapCSVRowToTransaction(row){
     const txType = row.Type?.trim().toLowerCase();
@@ -597,7 +618,7 @@ function mapCSVRowToTransaction(row){
             amount: txAmount,
             date: formatImportedDate(row.Date) || formattedDate,
             time: formatImportedTime(row.Time) || currentTime,
-            timestamp: row.Timestamp?.trim() || now.toISOString()
+            timestamp: generateTimeStamp(row.Date,row.Time) || timeStampFallback(row.Date)
         }; 
             } else {
                     return {
@@ -608,20 +629,15 @@ function mapCSVRowToTransaction(row){
                         amount: txAmount,
                         date: formatImportedDate(row.Date) || formattedDate,
                         time: formatImportedTime(row.Time) || currentTime,
-                        timestamp: row.Timestamp?.trim() ||  now.toISOString()
+                        timestamp: generateTimeStamp(row.Date, row.Time) ||  timeStampFallback(row.Date)
             };
         
         }
     }
 
-
-
-
-
-
-
 // Add import button and function
 importBtn.addEventListener("click", () => {
+    alert("CSV Upload Tips: Date and Time will default to current if empty. If you do not include a year on the date it will default to the current year. If the time does not include 'AM' or 'PM', it defaults to 'PM'. Company is not needed on Income transactions.");
     importFile.click();
 });
 
