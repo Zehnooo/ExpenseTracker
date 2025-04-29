@@ -437,7 +437,7 @@ summary {
     letter-spacing: 1px;
     user-select: none;
 }
-@media (max-width: 950px) {
+@media (max-width: 950px) and (hover: none) and (pointer: coarse) {
     html, body {
   overflow-x: hidden;
 }
@@ -501,19 +501,10 @@ summary {
             font-size: 12px;
         }
         .recent-container {
-            padding: 15px 20px;
             max-width: 900px;
-            margin: 0 auto 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         .del-container {
-            border: 1px solid var(--frame-color);
-            border-radius: 10px;
-            padding: 15px 20px;
-            background-color: white;
-            max-width: 1000px;
-            margin: 0 auto 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 900px;
         }
 
         li {
@@ -525,6 +516,7 @@ summary {
             max-width: 100%; 
             padding:0px 25px;
             margin-bottom:15px;
+            transform: none !important;
         }
         .expense {
             min-height: 200px;
@@ -579,7 +571,17 @@ summary {
             height: 24px;
             display: flex;
             flex-direction: column;
-            opacity: 75%;
           }
-}
+          .edit-btn,
+          .delete-btn {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        
+          .edit-btn .icon,
+          .delete-btn .icon {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
 
