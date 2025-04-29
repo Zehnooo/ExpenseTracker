@@ -190,17 +190,32 @@ function addTransactionToDOM(tx) {
     if (tx.type === "income"){
         li.classList.add("income");
         content.innerHTML = `
-        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
-        <div class="tx-row">📝 ${tx.description}</div>
-        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    <div class="tx-row date-time-row">
+    📅 ${tx.date.toUpperCase()} &nbsp;&nbsp;🕒 ${tx.time}
+  </div>
+  <div class="tx-row desc-row">
+    📝 ${tx.description}
+  </div>
+  <div class="tx-row amount-line">
+    💵 ${formattedAmount}
+  </div>
     `;
 
     } else {
         li.classList.add("expense");
         content.innerHTML = `
-        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
-        <div class="tx-row">🏢 ${tx.company} 📝 ${tx.description}</div>
-        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    <div class="tx-row date-time-row">
+    📅 ${tx.date.toUpperCase()} &nbsp;&nbsp;🕒 ${tx.time}
+  </div>
+  <div class="tx-row company-row">
+    ${tx.company ? `🏢 ${tx.company}` : ""}
+  </div>
+  <div class="tx-row desc-row">
+    📝 ${tx.description}
+  </div>
+  <div class="tx-row amount-line">
+    💵 ${formattedAmount}
+  </div>
     `;
     }
 
@@ -266,9 +281,15 @@ function addDeletedTransactions(){
         const formattedAmount = `$${parseFloat(tx.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
         content.innerHTML = `
-        <div class="tx-row">📅 ${tx.date.toUpperCase()} 🕒 ${tx.time}</div>
-        <div class="tx-row">📝 ${tx.description}</div>
-        <div class="tx-row amount-line">💵 ${formattedAmount}</div>
+    <div class="tx-row date-time-row">
+    📅 ${tx.date.toUpperCase()} &nbsp;&nbsp;🕒 ${tx.time}
+  </div>
+  <div class="tx-row desc-row">
+    📝 ${tx.description}
+  </div>
+  <div class="tx-row amount-line">
+    💵 ${formattedAmount}
+  </div>
     `;
         li.dataset.id = tx.id;
 
