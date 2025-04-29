@@ -583,5 +583,8 @@ summary {
             opacity: 1 !important;
             transform: none !important;
           }
+          button {
+            transform:none !important;
+          }
         }
 
