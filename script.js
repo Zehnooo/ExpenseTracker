@@ -18,7 +18,7 @@ function clearTransactionLog(){
     updateBalanceClass();
     hideEmpty();
  }
-// 
+// icon injector
 function getIconSVG(type) {
     switch (type) {
         case 'trash':
@@ -50,7 +50,6 @@ function getIconSVG(type) {
                 </svg>`;
     }
 }
-
 // Function to save transactions
 function saveTransactions() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -70,6 +69,7 @@ function loadTransactions() {
     transactionSorter();
     updateTotalsFromTransactions();
     addDeletedTransactions();
+    hideEmpty();
 }
 // function to  update totals on page load
 function updateTotalsFromTransactions() {
@@ -136,7 +136,6 @@ function hideEmpty(){
     }
 }
 
-
 // sort transactions based on timestamp
 function transactionSorter(){
 transactions.sort((a, b) =>  new Date(b.timestamp) - new Date(a.timestamp));
@@ -144,12 +143,8 @@ transactions.sort((a, b) =>  new Date(b.timestamp) - new Date(a.timestamp));
   transactions.forEach(addTransactionToDOM);
 }
 
-
 // load all transactions on page load
 loadTransactions();
-
-// hide deleted log on page load if empty
-hideEmpty();
 
 // DOM Parsing function
 function parseDisplayedAmount(element) {
