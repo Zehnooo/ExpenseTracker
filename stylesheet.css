@@ -323,14 +323,14 @@ li:hover .edit-btn, li:hover .delete-btn {
 li:hover .delete-btn .icon,
 li:hover .edit-btn .icon {
     opacity: 1;
-    transform: translateY(0) scale(1.2);
+    transform: translateY(0);
 }
 
 .delete-btn .icon, .edit-btn .icon {
     stroke:white;
     opacity: 0;
-    transform: translateY(5px) scale(1);                   
-    transition: opacity 0.3s ease, transform 0.3s ease, stroke 0.3s ease;
+    transform: translateY(15px) scale(1);                   
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, stroke 0.3s ease;
 }
 
 .income .delete-btn:hover .icon,
