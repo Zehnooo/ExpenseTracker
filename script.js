@@ -2,6 +2,24 @@
 let transactions = [];
 let deletedTransactions = [];
 let currentEditId = null;
+
+// quick log clear functions ** DELETE FROM PRODUCTION ** 
+function clearDeleteLog(){
+    deletedTransactions = [];
+    saveTransactions();
+    addDeletedTransactions();
+    hideEmpty();
+}
+function clearTransactionLog(){
+    transactions = [];
+    saveTransactions();
+    transactionSorter();
+    updateTotalsFromTransactions();
+    updateBalanceClass();
+    hideEmpty();
+ }
+
+
 // Function to save transactions
 function saveTransactions() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -504,6 +522,105 @@ function exportTransactions(){
          document.body.removeChild(link);
 }
 
+
+// format imported date
+function formatImportedDate(dateString) {
+    if (!dateString) return null;
+
+    const hasYear = /\b\d{4}\b/.test(dateString);
+    
+    let adjustedDate = dateString.trim();
+
+    if (!hasYear) {
+        const currentYear = new Date().getFullYear();
+        adjustedDate += ` ${currentYear}`;
+    }
+    const parsed = new Date(adjustedDate);
+
+    if (isNaN(parsed)) {
+        console.warn("Invalid transaction date:", dateString);
+        return null;
+    }
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    return parsed.toLocaleDateString(undefined,options).toUpperCase();
+}
+// format imported time
+function formatImportedTime(time){
+    if (!time) return null;
+    let adjTime = time.trim();
+
+    const hasTime = /\b(?:AM|PM)\b/i.test(adjTime);
+    const isValidTime = /^\d{1,2}:\d{2}(?:\s?(?:AM|PM))?$/i.test(adjTime);
+
+  
+
+    if (hasTime && isValidTime) {
+        return adjTime.toUpperCase();
+    }
+ 
+    if (!hasTime && isValidTime) {
+        return (adjTime + " PM").toUpperCase();
+    }
+
+    console.warn("Invalid transaction time format:", time);
+    return null;
+}
+
+// Function to map CSV to transactions
+function mapCSVRowToTransaction(row){
+    const txType = row.Type?.trim().toLowerCase();
+    const now = new Date();
+    const options = {year: 'numeric', month: 'short', day: 'numeric'};
+    const formattedDate = now.toLocaleDateString(undefined,options);
+    const currentTime = now.toLocaleTimeString(undefined, {
+        hour:'2-digit',
+        minute: '2-digit'
+    });
+
+    if (txType !== "income" && txType !== "expense"){
+        console.warn("Skipping unknown transaction type:", txType);
+        return null;
+    }
+
+    const txAmount = parseFloat(row.Amount);
+
+    if (isNaN(txAmount)){
+        console.warn("Skipping invalid amount:", txAmount);
+        return null;
+    }
+
+    if (txType === "income"){
+        return {
+            id: crypto.randomUUID(),
+            type: txType,
+            description: row.Description?.trim() || "",
+            amount: txAmount,
+            date: formatImportedDate(row.Date) || formattedDate,
+            time: formatImportedTime(row.Time) || currentTime,
+            timestamp: row.Timestamp?.trim() || now.toISOString()
+        }; 
+            } else {
+                    return {
+                        id: crypto.randomUUID(),
+                        type: txType,
+                        company: row.Company?.trim() || "",
+                        description: row.Description?.trim() || "",
+                        amount: txAmount,
+                        date: formatImportedDate(row.Date) || formattedDate,
+                        time: formatImportedTime(row.Time) || currentTime,
+                        timestamp: row.Timestamp?.trim() ||  now.toISOString()
+            };
+        
+        }
+    }
+
+
+
+
+
+
+
+// Add import button and function
 importBtn.addEventListener("click", () => {
     importFile.click();
 });
@@ -513,9 +630,37 @@ importFile.addEventListener("change", (event) => {
     if (!file) return;
   
     const reader = new FileReader();
+
     reader.onload = function(e) {
       const fileContent = e.target.result;
-      console.log(fileContent); // you now have the CSV text
+
+     
+      const parsedCsv = Papa.parse(fileContent, {
+        header: true,
+        skipEmptyLines: true,
+      });
+
+      if (parsedCsv.errors.length > 0){
+        console.error("Errors during CSV parsing:", parsedCsv.errors);
+        alert("There was an error parsing the CSV file.");
+        return;
+      }
+
+      const importedTransactions = parsedCsv.data
+      .map(tx => mapCSVRowToTransaction(tx))
+      .filter(tx => tx !== null);
+
+
+      if (importedTransactions.length > 0) {
+        transactions.push(...importedTransactions);
+        console.log("Imported transactions after filtering:", importedTransactions);
+        console.log("Current full transactions list:", transactions);
+        saveTransactions();
+        transactionSorter();
+        updateTotalsFromTransactions();
+        updateBalanceClass();
+        alert(`${importedTransactions.length} transactions imported successfully.`);
+      }
     };
     reader.readAsText(file);
   });
