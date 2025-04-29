@@ -323,15 +323,13 @@ li:hover .edit-btn, li:hover .delete-btn {
 li:hover .delete-btn .icon,
 li:hover .edit-btn .icon {
     opacity: 1;
-}
-
-.icon {
-    transition: transform 0.2s ease;
+    transform: translateY(0) scale(1.2);
 }
 
 .delete-btn .icon, .edit-btn .icon {
     stroke:white;
-    opacity: 0;                   
+    opacity: 0;
+    transform: translateY(5px) scale(1);                   
     transition: opacity 0.3s ease, transform 0.3s ease, stroke 0.3s ease;
 }
 
@@ -415,4 +413,15 @@ summary {
     opacity: 0;
     transform: scale(0.8);
   }
+}
+.watermark {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: var(--accent-color);
+    opacity: 0.5;
+    font-family: 'Gill Sans', sans-serif;
+    letter-spacing: 1px;
+    user-select: none;
 }
