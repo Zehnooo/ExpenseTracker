@@ -6,7 +6,7 @@ Responsive expense tracker built with html, css, and javascript
 - Color coded transactions
 - Editable transactions
 - Recently deleted log with undo buttons
-- Transactions sorted via time stamp
+- Filter by transaction type
 
 Live Demo: 👉 [Coming Soon]
 
