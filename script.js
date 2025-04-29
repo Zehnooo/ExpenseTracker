@@ -18,7 +18,38 @@ function clearTransactionLog(){
     updateBalanceClass();
     hideEmpty();
  }
-
+// 
+function getIconSVG(type) {
+    switch (type) {
+        case 'trash':
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-trash">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                </svg>`;
+        case 'pencil':
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pencil">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>`;
+        case 'undo':
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-undo">
+                    <path d="M3 7v6h6" />
+                    <path d="M21 17a9 9 0 0 0-15-7.5L3 13" />
+                </svg>`;
+        case 'x':
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-x">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>`;
+    }
+}
 
 // Function to save transactions
 function saveTransactions() {
@@ -181,12 +212,12 @@ function addTransactionToDOM(tx) {
    
 
     const delBtn = document.createElement("button");
-    delBtn.textContent = "🗑️";
+    delBtn.innerHTML = getIconSVG("trash");
     delBtn.classList.add("delete-btn");
     delBtn.addEventListener("click", () => deleteTransaction(tx.id));
 
     const editBtn = document.createElement("button");
-    editBtn.textContent="✏️";
+    editBtn.innerHTML = getIconSVG("pencil");
     editBtn.classList.add("edit-btn");
     editBtn.addEventListener("click", () => enterEditMode(tx.id)); 
 
@@ -247,12 +278,12 @@ function addDeletedTransactions(){
         li.dataset.id = tx.id;
 
         const undoBtn = document.createElement("button");
-        undoBtn.textContent = "↩️";
+        undoBtn.innerHTML = getIconSVG("undo");
         undoBtn.classList.add("delete-btn"); // reuse styles
         undoBtn.addEventListener("click", () => undoTransactionDel(tx.id));
 
         const permDelete = document.createElement("button");
-        permDelete.textContent = "✖️";
+        permDelete.innerHTML = getIconSVG("x");
         permDelete.classList.add("edit-btn");
 
         permDelete.addEventListener("click", () => {

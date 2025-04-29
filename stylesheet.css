@@ -228,8 +228,8 @@ h3, h1 {
     font-size: 1.75rem;
     display: flex;
     justify-content: center;
-    align-items: center; /* if you ever need vertical centering */
-    gap: 0.25rem; /* gives emoji and text breathing room */
+    align-items: center;
+    gap: 0.25rem;
     padding-bottom: 20px;
 }
 hr {
@@ -298,38 +298,52 @@ hr {
 .delete-btn {
     position: absolute;
     right: 15%;
-    top: 30%;
+    top: 32%;
     background: transparent;
     border: none;
-    font-size: 2rem;
-    visibility: hidden;
+    opacity:0;
     cursor: pointer;
-    padding: 0;
-}
-li:hover .delete-btn {
-    visibility:visible;
+    transition: opacity 0.3s ease;
 }
 
 .edit-btn {
     position: absolute;
     right: 5%;
-    top: 30%;
+    top: 32%;
     background: transparent;
     border: none;
-    font-size: 2rem;
     color: white;
-    visibility: hidden;
+    opacity:0;
     cursor: pointer;
-    padding: 0;
+    transition: opacity 0.3s ease;
 }
-li:hover .edit-btn {
-    visibility:visible;
+li:hover .edit-btn, li:hover .delete-btn {
+   opacity:1;
+}
+li:hover .delete-btn .icon,
+li:hover .edit-btn .icon {
+    opacity: 1;
 }
 
-.delete-btn:hover,
-.edit-btn:hover {
-  transform: scale(1.2); /* scale with translation preserved */
+.icon {
+    transition: transform 0.2s ease;
 }
+
+.delete-btn .icon, .edit-btn .icon {
+    stroke:white;
+    opacity: 0;                   
+    transition: opacity 0.3s ease, transform 0.3s ease, stroke 0.3s ease;
+}
+
+.income .delete-btn:hover .icon,
+.income .edit-btn:hover .icon {
+  stroke: var(--bad-color);
+}
+.expense .delete-btn:hover .icon,
+.expense .edit-btn:hover .icon {
+  stroke: var(--good-color);
+}
+
 .positive  {
     color:green;
 }
