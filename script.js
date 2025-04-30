@@ -126,6 +126,26 @@ const deleteLog = document.getElementById("delete-log-container");
 const exportBtn = document.getElementById("export-btn");
 const importBtn = document.getElementById("import-btn");
 const importFile = document.getElementById("import-file");
+const lightToggle = document.getElementById("light-toggle");
+const darkToggle = document.getElementById("dark-toggle");
+
+// theme switcher
+lightToggle.style.display = "none";
+
+darkToggle.addEventListener("click", function(){
+   document.body.classList.add("dark-mode");
+   darkToggle.style.display = "none";
+   lightToggle.style.display = "block";
+})
+
+lightToggle.addEventListener("click", function() {
+    document.body.classList.remove("dark-mode");
+    darkToggle.style.display = "block";
+   lightToggle.style.display = "none";
+})
+
+
+
 
 // hide deleted log if empty show if not
 function hideEmpty(){

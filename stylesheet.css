@@ -34,7 +34,7 @@ body {
   user-select: none;
 }
 .hidden {
-   visibility: hidden;
+visibility: hidden;
 }
 .container {
     max-width: 1200px;
@@ -344,7 +344,7 @@ hr {
 .delete-btn {
     position: absolute;
     right: 15%;
-    top: 32%;
+    top: 40%;
     background: transparent;
     border: none;
     opacity:0;
@@ -356,7 +356,7 @@ hr {
 .edit-btn {
     position: absolute;
     right: 5%;
-    top: 32%;
+    top: 40%;
     background: transparent;
     border: none;
     color: white;
@@ -923,5 +923,28 @@ summary {
   }
 }
 
+.sun, .moon {
+  position: absolute;
+  top:5px;
+  right: 5px;
+}
+/* Dark Mode Styling */
+body.dark-mode {
+  --good-color: #62a0ea;       /* Softer Blue */
+  --bad-color: #ff6b6b;        /* Warm Coral */
+  --background-color: #1e1e2f; /* Deep Gray */
+  --accent-color: #82aaff;     /* Vibrant Accent */
+  --text-color: #f4f4f4;       /* Light Text */
+  --frame-color: #444c56;      /* Dark Frame */
+  --card-color:  #2a2f45;
+  background: var(--background-color);
+}
 
-      
+body.dark-mode .balance-info, body.dark-mode #transaction-form, body.dark-mode #income-form, body.dark-mode .recent-container, body.dark-mode .del-container {
+  background: var(--card-color);
+}
+
+body.dark-mode h3 {
+  color: var(--text-color);
+}
+
