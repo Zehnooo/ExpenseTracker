@@ -6,6 +6,10 @@
     --text-color: #1c1c1c;       /* Dark Charcoal */
     --frame-color: #c4c4c4; /* Soft Charcoal */
   }
+  *{
+    margin:0;
+    padding:0;
+  }
   *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -247,7 +251,7 @@ hr {
     border: none;
     height: 2px;
     background-color: var(--accent-color);
-    margin: 20px auto;
+    margin: 10px auto;
     max-width: 90%;
 }
 #transaction-form, #income-form {
