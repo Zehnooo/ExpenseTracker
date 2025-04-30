@@ -15,6 +15,7 @@
   }
   html, body {
     overflow-x: hidden;
+    scroll-behavior: smooth;
   }
 body {
     background: var(--background-color); 
@@ -925,17 +926,28 @@ summary {
 
 .sun, .moon {
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
+  width: 36px;
+  height: 36px;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+.sun.hidden, .moon.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
 }
 /* Dark Mode Styling */
 body.dark-mode {
-  --good-color: #62a0ea;       /* Softer Blue */
-  --bad-color: #ff6b6b;        /* Warm Coral */
-  --background-color: #1e1e2f; /* Deep Gray */
-  --accent-color: #82aaff;     /* Vibrant Accent */
-  --text-color: #f4f4f4;       /* Light Text */
-  --frame-color: #444c56;      /* Dark Frame */
+  --good-color: #62a0ea;      
+  --bad-color: #ff6b6b;       
+  --background-color: #1e1e2f; 
+  --accent-color: #82aaff;    
+  --text-color: #f4f4f4;      
+  --frame-color: #444c56;    
   --card-color:  #2a2f45;
   background: var(--background-color);
 }

@@ -130,18 +130,19 @@ const lightToggle = document.getElementById("light-toggle");
 const darkToggle = document.getElementById("dark-toggle");
 
 // theme switcher
-lightToggle.style.display = "none";
+darkToggle.classList.remove("hidden");
+lightToggle.classList.add("hidden");
 
 darkToggle.addEventListener("click", function(){
    document.body.classList.add("dark-mode");
-   darkToggle.style.display = "none";
-   lightToggle.style.display = "block";
+   darkToggle.classList.add("hidden");
+   lightToggle.classList.remove("hidden");
 })
 
 lightToggle.addEventListener("click", function() {
     document.body.classList.remove("dark-mode");
-    darkToggle.style.display = "block";
-   lightToggle.style.display = "none";
+    darkToggle.classList.remove("hidden");
+    lightToggle.classList.add("hidden");
 })
 
 
