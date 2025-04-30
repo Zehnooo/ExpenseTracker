@@ -168,7 +168,7 @@ li:hover {
 #filter-buttons {
     margin: 0 auto;
     display: flex;
-    gap:15px;
+    gap:30px;
     justify-content: center;
 }
 #filter-all {
@@ -215,7 +215,7 @@ li:hover {
     text-align: center;
     margin: 0 auto;
     padding: 15px 50px;
-    gap:50px;
+    gap:20px;
 }
 .container button {
     transition: transform 0.5s ease;
