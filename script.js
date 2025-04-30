@@ -545,27 +545,47 @@ function exportTransactions(){
     //create headers
     csvContent += "Type,Company,Description,Amount,Date,Time\n";
 
-    // run transaction data to rows
-    transactions.forEach(tx => {
-        const row = [
-            tx.type,
-            tx.company || "N/A",
-            tx.description,
-            tx.amount,
-            tx.date.replace(/,/g, ""),
-            tx.time
-         ].join(",");
 
-         csvContent += row + "\n";
-    });
+    if (transactions.length === 0){
 
-         const contentReady = encodeURI(csvContent);
-         const link = document.createElement("a");
-         link.setAttribute("href", contentReady);
-         link.setAttribute("download","transactions.csv");
-         document.body.appendChild(link);
-         link.click();
-         document.body.removeChild(link);
+        if(confirm("No transactions to export. Click 'OK' for an upload template")) {
+
+
+    const contentReady = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", contentReady);
+    link.setAttribute("download","transactions.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+        }
+     
+        return;
+    } else {
+                 // run transaction data to rows
+                 transactions.forEach(tx => {
+                    const row = [
+                        tx.type,
+                        tx.company || "N/A",
+                        tx.description,
+                        tx.amount,
+                        tx.date.replace(/,/g, ""),
+                        tx.time
+                     ].join(",");
+            
+                     csvContent += row + "\n";
+                });
+                const contentReady = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", contentReady);
+                link.setAttribute("download","transactions.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+    }
+ 
+
 }
 
 
