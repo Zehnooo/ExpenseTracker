@@ -947,4 +947,9 @@ body.dark-mode .balance-info, body.dark-mode #transaction-form, body.dark-mode #
 body.dark-mode h3 {
   color: var(--text-color);
 }
-
+body.dark-mode .balance-info p {
+  color:var(--text-color);
+}
+body.dark-mode summary {
+  color:var(--text-color);
+}
