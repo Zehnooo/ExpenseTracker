@@ -485,7 +485,7 @@ summary {
         max-width: 200px;
     }
     .container {
-        max-width: 900px;
+        max-width: 500px;
       }
       .balance-info {
         max-width: 900px;
@@ -504,13 +504,15 @@ summary {
         text-wrap:nowrap;
     }
     #income-form {
-        max-height:450px;
+        height: 525px;
+        max-height:525px;
         padding:20px;
         max-width: 900px;
         margin: 20px auto;
     }
     #transaction-form {
-        height:550px;
+        height:600px;
+        max-height: 600px;
         padding:20px;
         max-width: 900px;
         margin: 20px auto;
@@ -532,14 +534,33 @@ summary {
         padding:0;
         gap:0;
         }
-    #filter-buttons {
-            margin: 0 auto;
-            max-width: 800px;
-        }
-     #filter-all, #filter-expense, #filter-income {
-            width:75px;
-            font-size: 12px;
-        }
+        #filter-buttons {
+          margin: 0 auto;
+          display: flex;
+          gap:10px;
+          justify-content: center;
+      }
+      #filter-all, #filter-expense, #filter-income {
+          width:150px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      #filter-buttons button {
+        width:75px;
+        max-width: 75px;
+        max-height: 75px;
+        margin-top:15px;
+        margin-bottom:25px;
+        color: #ffffff;
+        font-size: 19px;
+        border: 2px solid #c4c4c4;
+        border-radius: 10px;
+        padding: 15px 50px;
+        letter-spacing: 1px;
+        cursor: pointer;
+      }
         .recent-container {
             max-width: 900px;
         }
@@ -646,7 +667,7 @@ summary {
               max-width: 350px;
             }
             .balance-info {
-              max-width: 275px;
+              max-width: 350px;
           }
           .balance-info p {
               font-size:16px;
@@ -657,7 +678,7 @@ summary {
              align-items: center;
           }
           h3, h1 {
-              font-size: 1.1rem;
+              font-size: 1rem;
               padding-bottom: 25px;
               text-wrap:nowrap;
           }
@@ -668,7 +689,7 @@ summary {
               margin: 20px auto;
           }
           #transaction-form {
-              height:525px;
+              height:575px;
               padding:10px;
               max-width: 350px;
               margin: 20px auto;
@@ -686,25 +707,26 @@ summary {
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
             flex-wrap: wrap; 
             padding: 0;
+            
               }
               #data-buttons button {
                 max-width: 100px;
                 text-wrap: wrap;
-                height:75px;
+                height:50px;
                 height: auto;
                 min-height: 50px;
-                padding: 10px 20px;
+                padding: 10px;
                 text-align: center;
                 vertical-align: middle;
+                font-size: 12px;
               }
           #filter-buttons {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 0px;
+            gap: 10px;
             width: 100%;
             max-width: none;
             margin: 0;
@@ -714,10 +736,9 @@ summary {
                 font-size: 12px;
                 padding: 8px 0;
                 margin:0;
-                margin-bottom: 5px;
+                margin-bottom: 20px;
               }
            #filter-all, #filter-expense, #filter-income {
-                  
                   font-size: 10px;
               }
               .recent-container {
