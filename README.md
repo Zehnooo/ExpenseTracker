@@ -8,7 +8,7 @@ Responsive expense tracker built with html, css, and javascript
 - Recently deleted log with undo buttons
 - Filter by transaction type
 
-Live Demo: 👉 [Coming Soon]
+Live Demo: 👉 (https://zehnooo.github.io/ExpenseTracker/)
 
 Made with 🤍 by Zehnooo (2025)
 
