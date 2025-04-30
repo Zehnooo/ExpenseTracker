@@ -167,7 +167,9 @@ li:hover {
 }
 #filter-buttons {
     margin: 0 auto;
-    
+    display: flex;
+    gap:15px;
+    justify-content: center;
 }
 #filter-all {
     margin-top:15px;
