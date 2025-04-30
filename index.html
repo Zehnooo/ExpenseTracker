@@ -11,7 +11,7 @@
       <h1 class="page-head" id="main-title">Expense Tracker</h1>
       <hr />
       <div class="balance-info">
-        <h3 class="balance-title">📊 Balance Summary 📊</h3>
+        <h3 class="balance-title">Balance Summary</h3>
         <p class="cur-bal-line">
           Current Balance: <span id="current-balance">$0.00</span>
         </p>
@@ -23,7 +23,7 @@
         </p>
       </div>
       <form id="income-form" role="form">
-        <h3>💰 Enter Income Transactions 💰</h3>
+        <h3>Enter Income Transactions</h3>
         <div class="input-info">
           <div class="desc-container">
             <label for="income-desc">Description</label>
@@ -50,7 +50,7 @@
         </div>
       </form>
       <form id="transaction-form" role="form">
-        <h3>💸 Enter Expense Transactions 💸</h3>
+        <h3>Enter Expense Transactions</h3>
         <div class="input-info">
           <div class="company-container">
             <label for="company">Company</label>
@@ -93,27 +93,21 @@
         </div>
       </form>
       <div class="recent-container">
-        <h3>⏳ Recent Transactions ⌛</h3>
+        <h3>Recent Transactions</h3>
 
         <div class="container">
-            <div id="data-buttons">
-              <button id="export-btn">
-                Export as CSV
-              </button>
-  
-              <button id="import-btn">
-                Import from CSV
-              </button>
-              <input
-                type="file"
-                id="import-file"
-                accept=".csv"
-                style="display: none"
-              />
-            </div>
-          <div
-            id="filter-buttons"
-          >
+          <div id="data-buttons">
+            <button id="export-btn">Export as CSV</button>
+
+            <button id="import-btn">Import from CSV</button>
+            <input
+              type="file"
+              id="import-file"
+              accept=".csv"
+              style="display: none"
+            />
+          </div>
+          <div id="filter-buttons">
             <button id="filter-all">All</button>
             <button id="filter-income">Income</button>
             <button id="filter-expense">Expense</button>
@@ -123,7 +117,7 @@
       </div>
       <div class="del-container" id="delete-log-container">
         <div class="container">
-          <h3>🚮 View Deleted Transactions 🚮</h3>
+          <h3>View Deleted Transactions</h3>
           <details id="deleted-log">
             <summary></summary>
             <ul id="deleted-transactions"></ul>

@@ -149,9 +149,8 @@ li:hover {
     background-color: var(--bad-color);
     color:white;
 }
-.income-submit, .edit-income-submit, #filter-income {
-    margin-top:15px;
-    margin-bottom:25px;
+.income-submit, .edit-income-submit{
+    margin:30px auto;
     color: #ffffff;
     background-color: #0b3954;
     font-size: 19px;
@@ -166,9 +165,8 @@ li:hover {
     justify-content: center;
     align-items: center;
 }
-.expense-submit, .edit-expense-submit, #filter-expense {
-    margin-top:15px;
-    margin-bottom:25px;
+.expense-submit, .edit-expense-submit{
+    margin: 30px auto;
     color: #ffffff;
     background-color: #b93131;
     font-size: 19px;
@@ -190,16 +188,13 @@ li:hover {
     justify-content: center;
 }
 #filter-all {
-    margin-top:15px;
-    margin-bottom:25px;
-    color: #ffffff;
     background-color: #a1aaaa;
-    font-size: 19px;
-    border: 2px solid #c4c4c4;
-    border-radius: 10px;
-    padding: 15px 50px;
-    letter-spacing: 2px;
-    cursor: pointer;
+}
+#filter-income {
+  background-color: var(--good-color);
+}
+#filter-expense {
+  background-color: var(--bad-color);
 }
 #filter-all, #filter-expense, #filter-income {
     width:150px;
@@ -207,7 +202,19 @@ li:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+}
+#filter-buttons button {
+  width:150px;
+  max-height: 75px;
+  margin-top:15px;
+  margin-bottom:25px;
+  color: #ffffff;
+  font-size: 19px;
+  border: 2px solid #c4c4c4;
+  border-radius: 10px;
+  padding: 15px 50px;
+  letter-spacing: 2px;
+  cursor: pointer;
 }
 
 #data-buttons button {
@@ -260,12 +267,14 @@ h3 {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 10px 0 15px;
+  padding: 20px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-bottom: 2px solid var(--frame-color);
-  margin: 0 auto 20px;
+  margin: 0 auto;
+  margin-bottom:30px;
   max-width: 90%;
+  line-height: 3rem;
 }
 hr {
   border: none;
@@ -395,14 +404,17 @@ li:hover .edit-btn .icon {
     margin: 0 auto 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     font-family: 'Gill Sans', 'Segoe UI', sans-serif;
+    min-height: 300px;
 }
 .balance-info p {
     font-size:30px;
     text-wrap: nowrap;
     padding: 0 25px;
    display:flex;
-   justify-content: space-evenly;
+   justify-content: space-around;
    align-items: center;
+   margin-bottom: 15px;
+   line-height: 3rem;
 }
 .recent-container {
     border: 1px solid var(--frame-color);
@@ -424,6 +436,7 @@ li:hover .edit-btn .icon {
 }
 summary {
     text-align: center;
+    margin-bottom:10px;
 }
 
 .fade-out {
