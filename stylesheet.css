@@ -14,6 +14,20 @@
   }
 body {
     background: var(--background-color); 
+    
+}
+#main-title {
+  
+  font-size: 2.2rem;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--accent-color);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
 }
 .hidden {
    visibility: hidden;
@@ -234,20 +248,29 @@ li:hover {
 }
 
 
-h3, h1 {
-    font-size: 1.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.25rem;
-    padding-bottom: 20px;
+h3 {
+  font-size: 1.25rem;
+  font-family: 'Gill Sans', 'Segoe UI', sans-serif;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 0 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--frame-color);
+  margin: 0 auto 20px;
+  max-width: 90%;
 }
 hr {
-    border: none;
-    height: 2px;
-    background-color: var(--accent-color);
-    margin: 20px auto;
-    max-width: 90%;
+  border: none;
+  height: 4px;
+  width: 60%;
+  margin: 20px auto;
+  background: linear-gradient(to right, var(--accent-color), var(--good-color));
+  border-radius: 999px;
+  opacity: 0.8;
 }
 #transaction-form, #income-form {
     text-align: center;
@@ -367,6 +390,7 @@ li:hover .edit-btn .icon {
     max-width: 750px;
     margin: 0 auto 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    font-family: 'Gill Sans', 'Segoe UI', sans-serif;
 }
 .balance-info p {
     font-size:30px;
@@ -773,5 +797,93 @@ summary {
                 stroke: white !important;
                 }
               }
-      
+@media (min-width: 600px) and (max-width: 900px) and (hover: none) and (pointer: coarse) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .container,
+  .balance-info,
+  .recent-container,
+  .del-container,
+  #income-form,
+  #transaction-form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .balance-info p {
+    font-size: 20px;
+    padding: 0 20px;
+    justify-content: space-between;
+  }
+
+  h1, h3 {
+    font-size: 1.5rem;
+    padding-bottom: 30px;
+    white-space: nowrap;
+  }
+
+  #data-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  #data-buttons button {
+    max-width: 120px;
+    padding: 10px 20px;
+    min-height: 50px;
+    font-size: 14px;
+  }
+
+  #filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 700px;
+    margin: 10px auto 20px;
+  }
+
+  #filter-buttons button {
+    padding: 8px 12px;
+    font-size: 13px;
+    width: auto;
+  }
+
+  li {
+    padding: 10px 20px;
+    font-size: 14px;
+    transform: none !important;
+  }
+
+  .tx-content {
+    max-height: 250px;
+  }
+
+  .edit-btn, .delete-btn {
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .edit-btn {
+    left: 10px;
+  }
+
+  .delete-btn {
+    right: 10px;
+  }
+
+  .icon {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
       
