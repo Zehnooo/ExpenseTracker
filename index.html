@@ -96,35 +96,27 @@
         <h3>⏳ Recent Transactions ⌛</h3>
 
         <div class="container">
+            <div id="data-buttons">
+              <button id="export-btn">
+                Export as CSV
+              </button>
+  
+              <button id="import-btn">
+                Import from CSV
+              </button>
+              <input
+                type="file"
+                id="import-file"
+                accept=".csv"
+                style="display: none"
+              />
+            </div>
           <div
             id="filter-buttons"
-            style="
-              display: flex;
-              justify-content: center;
-              gap: 20px;
-              margin-bottom: 20px;
-            "
           >
             <button id="filter-all">All</button>
             <button id="filter-income">Income</button>
             <button id="filter-expense">Expense</button>
-          </div>
-          <div id="data-buttons">
-            <button id="export-btn">
-              Export as CSV
-              <span style="position: relative; top: -2px">📩</span>
-            </button>
-
-            <button id="import-btn">
-              Import from CSV
-              <span style="position: relative; top: -2px">📤</span>
-            </button>
-            <input
-              type="file"
-              id="import-file"
-              accept=".csv"
-              style="display: none"
-            />
           </div>
           <ul id="transaction-list" aria-live="polite"></ul>
         </div>
