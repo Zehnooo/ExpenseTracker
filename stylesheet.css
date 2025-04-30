@@ -18,6 +18,20 @@
   }
 body {
     background: var(--background-color); 
+    
+}
+#main-title {
+  
+  font-size: 2.2rem;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--accent-color);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
 }
 .hidden {
    visibility: hidden;
@@ -83,7 +97,6 @@ li {
     margin: 0 auto;
     list-style-type: none;
     border-radius: 6px;
-    margin-bottom: 6px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
     transition: transform 0.2s ease-in;
     font-size: 1.2rem;
@@ -172,7 +185,9 @@ li:hover {
 }
 #filter-buttons {
     margin: 0 auto;
-    
+    display: flex;
+    gap:30px;
+    justify-content: center;
 }
 #filter-all {
     margin-top:15px;
@@ -218,10 +233,8 @@ li:hover {
     text-align: center;
     margin: 0 auto;
     padding: 15px 50px;
-    gap:50px;
+    gap:20px;
 }
-
-
 .container button {
     transition: transform 0.5s ease;
 }
@@ -239,20 +252,29 @@ li:hover {
 }
 
 
-h3, h1 {
-    font-size: 1.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.25rem;
-    padding-bottom: 20px;
+h3 {
+  font-size: 1.25rem;
+  font-family: 'Gill Sans', 'Segoe UI', sans-serif;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 0 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--frame-color);
+  margin: 0 auto 20px;
+  max-width: 90%;
 }
 hr {
-    border: none;
-    height: 2px;
-    background-color: var(--accent-color);
-    margin: 10px auto;
-    max-width: 90%;
+  border: none;
+  height: 4px;
+  width: 60%;
+  margin: 20px auto;
+  background: linear-gradient(to right, var(--accent-color), var(--good-color));
+  border-radius: 999px;
+  opacity: 0.8;
 }
 #transaction-form, #income-form {
     text-align: center;
@@ -372,6 +394,7 @@ li:hover .edit-btn .icon {
     max-width: 750px;
     margin: 0 auto 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    font-family: 'Gill Sans', 'Segoe UI', sans-serif;
 }
 .balance-info p {
     font-size:30px;
@@ -441,7 +464,7 @@ summary {
     letter-spacing: 1px;
     user-select: none;
 }
-@media (max-width: 950px) and (hover: none) and (pointer: coarse) {
+@media (max-width: 600px) and (hover: none) and (pointer: coarse) {
     html, body {
   overflow-x: hidden;
 }
@@ -514,7 +537,6 @@ summary {
         li {
             width: 100%;
             margin: 0 auto 10px;
-            margin-bottom: 6px;
             font-size: 16px;
             font-family: Gill Sans, sans-serif;
             max-width: 100%; 
@@ -590,5 +612,282 @@ summary {
           button {
             transform:none !important;
           }
+          .income .delete-btn:hover .icon,
+          .income .edit-btn:hover .icon {
+          stroke: white !important;
+          } 
+          .expense .delete-btn:hover .icon,
+          .expense .edit-btn:hover .icon {
+          stroke: white !important;
+          }
         }
 
+        @media (max-width: 400px) and (hover: none) and (pointer: coarse) {
+          html, body {
+        overflow-x: hidden;
+      }
+          input {
+              max-width: 150px;
+          }
+          .container {
+              max-width: 350px;
+            }
+            .balance-info {
+              max-width: 275px;
+          }
+          .balance-info p {
+              font-size:16px;
+              text-wrap: nowrap;
+              padding: 0 15px;
+             display:flex;
+             justify-content: space-between;
+             align-items: center;
+          }
+          h3, h1 {
+              font-size: 1.1rem;
+              padding-bottom: 25px;
+              text-wrap:nowrap;
+          }
+          #income-form {
+              max-height:450px;
+              padding:10px;
+              max-width: 350px;
+              margin: 20px auto;
+          }
+          #transaction-form {
+              height:525px;
+              padding:10px;
+              max-width: 350px;
+              margin: 20px auto;
+          }
+          .desc-container, .amount-container, .company-container {
+              width:100%;
+              display:flex;
+              justify-content: center;
+              align-items: center;
+              gap:10px;
+              margin-bottom:10px;
+              }
+          #data-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap; 
+            padding: 0;
+              }
+              #data-buttons button {
+                max-width: 100px;
+                text-wrap: wrap;
+                height:75px;
+                height: auto;
+                min-height: 50px;
+                padding: 10px 20px;
+                text-align: center;
+                vertical-align: middle;
+              }
+          #filter-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+              }
+              #filter-buttons button {
+                width: 90%;
+                font-size: 12px;
+                padding: 8px 0;
+                margin:0;
+                margin-bottom: 5px;
+              }
+           #filter-all, #filter-expense, #filter-income {
+                  
+                  font-size: 10px;
+              }
+              .recent-container {
+                  max-width: 350px;
+              }
+              .del-container {
+                  max-width: 350px;
+              }
+      
+              li {
+                  width: 100%;
+                  margin: 0 auto 10px;
+                  font-size: 12px;
+                  font-family: Gill Sans, sans-serif;
+                  max-width: 100%; 
+                  padding:0px 10px;
+                  margin-bottom:15px;
+                  transform: none !important;
+              }
+              .expense {
+                  min-height: 200px;
+              }
+              .income {
+                  min-height: 200px;
+              }
+              .tx-row {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  text-align: center;
+                  margin: 6px 0;
+                  margin-bottom: 4px;
+                  padding-bottom: 2px;
+                  border-bottom: 1px solid rgba(255,255,255,0.1);
+                }
+                .amount-line {
+                  font-size: 1rem;
+                }
+                .tx-content {
+                  width: 100%;
+                  display: block;
+                  max-height: 200px;
+                }
+                .date-time-row {
+                  justify-content: center;
+                  flex-wrap: nowrap;
+                  white-space: nowrap;
+                }
+              
+                .company-row,
+                .desc-row {
+                  display: block;
+                  text-align: center;
+                }
+              
+                .tx-row {
+                  margin: 4px 0;
+                  padding: 2px 0;
+                }
+                .edit-btn {
+                  left:2px;
+                  top:5px;
+                }
+                .delete-btn {
+                  right:15px;
+                  top:5px;
+                }
+                .icon, .edit-btn, .delete-btn {
+                  width: 24px;
+                  height: 24px;
+                  display: flex;
+                  flex-direction: column;
+                }
+                .edit-btn,
+                .delete-btn {
+                  opacity: 1 !important;
+                  transform: none !important;
+                }
+              
+                .edit-btn .icon,
+                .delete-btn .icon {
+                  opacity: 1 !important;
+                  transform: none !important;
+                }
+                button {
+                  transform:none !important;
+                }
+                .income .delete-btn:hover .icon,
+                .income .edit-btn:hover .icon {
+                stroke: white !important;
+                } 
+                .expense .delete-btn:hover .icon,
+                .expense .edit-btn:hover .icon {
+                stroke: white !important;
+                }
+              }
+@media (min-width: 600px) and (max-width: 900px) and (hover: none) and (pointer: coarse) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .container,
+  .balance-info,
+  .recent-container,
+  .del-container,
+  #income-form,
+  #transaction-form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .balance-info p {
+    font-size: 20px;
+    padding: 0 20px;
+    justify-content: space-between;
+  }
+
+  h1, h3 {
+    font-size: 1.5rem;
+    padding-bottom: 30px;
+    white-space: nowrap;
+  }
+
+  #data-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  #data-buttons button {
+    max-width: 120px;
+    padding: 10px 20px;
+    min-height: 50px;
+    font-size: 14px;
+  }
+
+  #filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 700px;
+    margin: 10px auto 20px;
+  }
+
+  #filter-buttons button {
+    padding: 8px 12px;
+    font-size: 13px;
+    width: auto;
+  }
+
+  li {
+    padding: 10px 20px;
+    font-size: 14px;
+    transform: none !important;
+  }
+
+  .tx-content {
+    max-height: 250px;
+  }
+
+  .edit-btn, .delete-btn {
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .edit-btn {
+    left: 10px;
+  }
+
+  .delete-btn {
+    right: 10px;
+  }
+
+  .icon {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+      
